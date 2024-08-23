@@ -13,6 +13,11 @@ Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to s
 
 TODO: Spremeniti velikost celic, da so pri velikih tabelah posamezni kvadratki majhni, ker ne sme biti fiksna veliksot 100
 
+TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb
+
+poganjanje: dune build
+./grafika.exe
+
 Zaenkrat so zraven še vse profesorjeve datoteke, da si lahko pomagam z njimi, na koncu jih moram odstraniti
 
 # Končni avtomati
