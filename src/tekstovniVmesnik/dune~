@@ -1,0 +1,6 @@
+(executable
+ (name grafika)
+ (libraries graphics unix)
+ (promote
+  (into ../..)
+  (until-clean)))

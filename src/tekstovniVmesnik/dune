@@ -1,0 +1,6 @@
+(executable
+ (name grafika)
+ (libraries graphics unix definicije)
+ (promote
+  (into ../..)
+  (until-clean)))
