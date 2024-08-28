@@ -20,7 +20,7 @@ match n with
 let rec randommatrika m n =
 match m with 
 | 0 -> [| |]
-| k -> Array.append [|randomarray n|] (randommatrika (m-1) n)
+| k -> Array.append [|randomarray n|] (randommatrika (k-1) n)
 
 let (^^^) x y = x ^ " " ^ y
 
@@ -56,3 +56,29 @@ let osmi = matrika.((i+1) mod m).((j+1) mod n) in
 let deveti = matrika.((i+1) mod m).((j+3) mod n) in
 prvi::drugi::tretji::cetrti::peti::sesti::sedmi::osmi::deveti::[]
 
+
+let dotprod matrikaa matrikab = (*kot dot product samo z booli*)
+  let m = Array.length matrikaa in
+  let n = Array.length matrikaa.(0) in
+  let vsota = ref 0 in
+  for i = 0 to m - 1 do
+    for j = 0 to n - 1 do
+      vsota := !vsota + (intofbool (matrikaa.(i).(j) && matrikab.(i).(j)))
+    done
+  done;
+  !vsota
+
+let init_matrix rows cols f = (*ta funkcija bi mogla bit že definirana je pisal na spletu??? *)
+  Array.init rows (fun i -> Array.init cols (fun j -> f i j))
+
+
+let izlocisosedskomatriko celamatrika k prviindeks drugiindeks = (* dobimo matriko sosedov kvadrata i j *)
+let m = Array.length celamatrika in
+let n = Array.length celamatrika.(0) in
+init_matrix k k (fun i j -> celamatrika.((i + prviindeks) mod m).((j + drugiindeks )mod n))
+
+let naredimatrikovsot celamatrika matrikasosescine =
+let m = Array.length celamatrika in
+let n = Array.length celamatrika.(0) in 
+let k = Array.length matrikasosescine in 
+init_matrix m n (fun i j -> (dotprod (izlocisosedskomatriko celamatrika k i j) matrikasosescine))
