@@ -67,29 +67,4 @@ let zacetnamatrika = [|[|false; true; true; true; true; true; true|]; (* za več
     [|true; true; true; true; true; true; true|];
     [|false; false; true; true; true; false; true|];
     [|false; false; false; true; false; true; false|]|]
-    
-    
-(*želim funkcijo, ki vzame matriko dobljeno z izločeno in na podlagi pravila določi ali bo nov element živ ali ne, mogoče modificiram matriko s številom sosedov, da vključuje podatek, ali je kvaddratek sam živ ali mrtev*)
-(*ideja za pravila je npr urejen seznam mej med tem, ali so živi ali mrtvi*)
-(*druga ideja je samo seznam vseh vrednosti, za katere ostane živ*)
-let rec notri element mnozica=
-match mnozica with
-|element::t -> true
-|h::t -> notri element t
-|[] -> false
 
-let pravilo (trenutnostanje,stsosed) (pravilazivi, pravilamrtvi)=
-match trenutnostanje with
-|true -> notri stsosed pravilazivi
-|false -> notri stsosed pravilamrtvi
-
-let naredikorak matrikasosedov (pravilazivi, pravilamrtvi)=
-let m = Array.length matrikasosedov in
-let n = Array.length matrikasosedov.(0) in
-init_matrix m n (fun i j -> pravilo matrikasosedov.(i).(j) (pravilazivi, pravilamrtvi))
-(*funkcija init_matrix je iz izlocisosede, a bo to problem ko bom poganjal?*)
-
-(*conway*)
-let zacetnapravila = ([2;3], [3]) (*Conway*)
-let zacetnik = 3
-let zacetnisosedi = [|[|false; true; false|]; [|true; false; true|]; [|false; true; false|]|]
