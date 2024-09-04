@@ -33,7 +33,7 @@ Graphics.open_graph zacetnistring
 
 let zaprigraf = Graphics.close_graph
 
-
+(*
 (*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
 let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
 let barva = point_color (i*stranica) (j*stranica + 200) in
@@ -45,6 +45,17 @@ else match vrstica with
   | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
   | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
   | _ -> ()
+
+*)
+
+let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
+match vrstica with
+| true::[] -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica;
+| true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
+| false :: tail -> narisigrafpovrstici tail (i+1) j stranica
+| false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
+| _ -> ()
+
 
 
 
