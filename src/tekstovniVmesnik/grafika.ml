@@ -34,7 +34,7 @@ let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrs
 match vrstica with
 | true::[] -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica;
 | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
-| false :: tail -> narisigrafpovrstici tail (i+1) j stranica
+| false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
 | _ -> ()
 
 
@@ -67,8 +67,8 @@ let spremeni_matriko matrika m n =
 
 let narisimatriko matrika=
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
+let seznam = obrniseznam (Array.to_list matrika) in 
+pomoznanarisiseznam seznam 0 0 stranica;
 naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod"
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
@@ -84,7 +84,7 @@ let korakmatrike matrika =
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
+pomoznanarisiseznam seznam 0 0 stranica;
 naredi_gumb 400 75 100 50 "Koncano";
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
@@ -127,7 +127,9 @@ let rec event_loop () =
         end
       else if is_inside status.mouse_x status.mouse_y 250 75 100 50 then
         begin
+          Graphics.clear_graph();
           rocnasprememba nekamatrika;
+          Graphics.clear_graph();
           narisimatriko nekamatrika;
           event_loop ()
         end
