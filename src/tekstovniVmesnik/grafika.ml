@@ -6,8 +6,8 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
-let praznamatrika m n =
-  Array.make m (Array.make n false)
+(*let praznamatrika m n =
+  Array.make m (Array.make n false) *)
 
 (*let polnamatrika m n =
   Array.make m (Array.make n true)*)
@@ -119,8 +119,7 @@ let _ =
   let visina = read_int () in
   let sirina = read_int () in
   let nekamatrika = randommatrika visina sirina in
-  let prejsnjamatrika = praznamatrika visina sirina in
-  naredi_graf prejsnjamatrika;
+  naredi_graf nekamatrika;
   narisimatriko nekamatrika;
   
 (*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
