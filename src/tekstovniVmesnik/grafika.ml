@@ -49,8 +49,8 @@ else match vrstica with
 
 *)
 let rec narisigrafpovrstici vrstica i j stranica = 
-  let barva = white (*point_color (i * stranica+1) (j * stranica + 200+1)*) in
-  if barva = 0 then 
+  let barva = point_color 0 0 (*point_color (i * stranica) (j * stranica + 200)*) in
+  if barva = white then 
     match vrstica with
     | true :: tail -> 
         fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
