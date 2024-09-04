@@ -6,6 +6,8 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
+
+(*nigga refreshaj se*)
 (*let praznamatrika m n =
   Array.make m (Array.make n false) *)
 
