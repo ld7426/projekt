@@ -167,6 +167,7 @@ else
 let _ =
   let visina = read_int () in
   let sirina = read_int () in
+  let stranica = min (1024/(sirina)) (512/(visina)) in
   let nekamatrika = randommatrika visina sirina in
   naredi_graf nekamatrika;
   narisimatriko nekamatrika;
