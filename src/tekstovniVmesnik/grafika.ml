@@ -187,7 +187,7 @@ let rec event_loop () =
       else if is_inside status.mouse_x status.mouse_y 250 75 100 50 then
         begin
           Graphics.clear_graph();
-          let seznam = obrniseznam (Array.to_list matrika) in
+          let seznam = obrniseznam (Array.to_list nekamatrika) in
           pomoznanarisiseznam seznam 0 0 stranica;
           rocnasprememba nekamatrika;
           Graphics.clear_graph();
