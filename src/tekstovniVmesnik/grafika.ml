@@ -21,7 +21,7 @@ match m with
 let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
-let stranicakvadrata = min (1024/n) (512/m) in
+let stranicakvadrata = min (1024/n) (512/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
 let sirina = n*stranicakvadrata in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
@@ -87,9 +87,9 @@ let seznam = obrniseznam (Array.to_list matrika) in
 Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
 naredi_gumb 400 75 100 50 "Koncano";
 let status = wait_next_event [Button_down] in
-let xm = (status.mouse_x)/(100) in
-let ym = (status.mouse_y)/(100)-2 in
-if ym<0 then ()
+let xm = (status.mouse_x)/(stranica) in
+let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status-200)/stranica se npr -10/stranica zaokroži lahko na 0*)
+if ym<0 then () (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak jbg, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
 else 
