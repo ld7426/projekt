@@ -46,18 +46,41 @@ else match vrstica with
   | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
   | _ -> ()
 
-*)
 
-let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
+*)
+let rec narisigrafpovrstici vrstica i j stranica = 
+  let barva = point_color (i * stranica) (j * stranica + 200) in
+  if barva == white then 
+    match vrstica with
+    | true :: tail -> 
+        fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | false :: tail -> 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | _ -> ()
+  else 
+    match vrstica with
+    | true :: tail -> 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | false :: tail -> 
+        set_color white; 
+        fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
+        set_color black; 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | _ -> ()
+
+
+
+(*let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
 match vrstica with
 | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
 | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
 | _ -> ()
+*)
 
 
 
-
-let rec obrniseznam seznam =(*hkrati spremeni emelente iz Arraya v list*)
+let rec obrniseznam seznam =(*hkrati spremeni elemente iz Arraya v list*)
 match seznam with
 | head :: tail -> (obrniseznam tail) @ [Array.to_list head]
 | [] -> []
