@@ -46,7 +46,7 @@
      _d_ = caml_call3(Vdom_blit[11], 0, 0, app),
      _e_ = caml_call1(Vdom_blit[13], _d_),
      _f_ = caml_call2(Js_browser[16][8], Js_browser[26], cst_container),
-     match = caml_call1(Stdlib_Array[10], _f_);
+     match = caml_call1(Stdlib_Array[11], _f_);
     if(match)
      var element = match[1], element$0 = element;
     else

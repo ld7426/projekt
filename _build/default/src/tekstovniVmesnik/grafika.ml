@@ -21,19 +21,20 @@ match m with
 let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
-let sirina = n*100 in
-let visina = (m+2)*100 in
+let stranicakvadrata = min (1024/n) (512/m) in
+let sirina = n*stranicakvadrata in
+let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
 Graphics.open_graph zacetnistring
 
 let zaprigraf = Graphics.close_graph
 
 (*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
-let rec narisigrafpovrstici vrstica i j= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
+let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
 match vrstica with
-| true::[] -> fill_rect (i*100) ((j+2)*100) 100 100;
-| true :: tail -> Graphics.fill_rect (i*100) ((j+2)*100) 100 100; narisigrafpovrstici tail (i+1) j
-| false :: tail -> narisigrafpovrstici tail (i+1) j
+| true::[] -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica;
+| true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
+| false :: tail -> narisigrafpovrstici tail (i+1) j stranica
 | _ -> ()
 
 
@@ -42,9 +43,9 @@ match seznam with
 | head :: tail -> (obrniseznam tail) @ [Array.to_list head]
 | [] -> []
 
-let rec pomoznanarisiseznam seznam i j= (*Sprejme matriko v obliki list list in indeksa i in j*)
+let rec pomoznanarisiseznam seznam i j stranica= (*Sprejme matriko v obliki list list in indeksa i in j*)
 match seznam with
-| head :: tail -> narisigrafpovrstici head i j; pomoznanarisiseznam tail i (j+1)
+| head :: tail -> narisigrafpovrstici head i j stranica; pomoznanarisiseznam tail i (j+1) stranica
 | [] -> ()
 
 
@@ -64,9 +65,10 @@ let is_inside x y bx by bwidth bheight =
 let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
-let narisimatriko matrika =
+let narisimatriko matrika=
+let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0;
+Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
 naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod"
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
@@ -79,9 +81,10 @@ let spremeniprvomatriko prvamatrika drugamatrika =
 let korakmatrike matrika =
   spremeniprvomatriko matrika (korak izlocisosede matrika)
 
-let rec rocnasprememba matrika = 
+let rec rocnasprememba matrika =
+let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0;
+Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
 naredi_gumb 400 75 100 50 "Koncano";
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(100) in
@@ -108,6 +111,7 @@ let _ =
   let nekamatrika = randommatrika visina sirina in
   naredi_graf nekamatrika;
   narisimatriko nekamatrika;
+  
 (*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
 let rec event_loop () =
   let status = wait_next_event [Button_down; Key_pressed] in

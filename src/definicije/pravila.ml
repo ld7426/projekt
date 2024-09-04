@@ -73,15 +73,18 @@ let zacetnamatrika = [|[|false; true; true; true; true; true; true|]; (* za več
 (*ideja za pravila je npr urejen seznam mej med tem, ali so živi ali mrtvi*)
 (*druga ideja je samo seznam vseh vrednosti, za katere ostane živ*)
 let rec notri element mnozica=
-match mnozica with
-|element::t -> true
-|h::t -> notri element t
+match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil...*)
+|h::t -> (h==element) || (notri element t)
 |[] -> false
 
 let pravilo (trenutnostanje,stsosed) (pravilazivi, pravilamrtvi)=
 match trenutnostanje with
 |true -> notri stsosed pravilazivi
 |false -> notri stsosed pravilamrtvi
+
+let init_matrix rows cols f = (* POZOR!!!funkcija definirana tukaj in v izlocisosede *)
+  Array.init rows (fun i -> Array.init cols (fun j -> f i j))
+
 
 let naredikorak matrikasosedov (pravilazivi, pravilamrtvi)=
 let m = Array.length matrikasosedov in

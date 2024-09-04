@@ -35,7 +35,7 @@
      _g_ = caml_call1(Stdlib_List[1], _f_),
      _h_ = caml_call3(Dune_exe_Vektor[8], _g_, sirina, visina),
      _i_ = caml_call1(Definicije_Avtomat[7], avtomat),
-     polozaji = caml_call1(caml_call1(Stdlib_List[58], _i_), _h_);
+     polozaji = caml_call1(caml_call1(Stdlib_List[55], _i_), _h_);
     return [0,
             caml_call2
              (Definicije_ZagnaniAvtomat[1], avtomat, Definicije_Trak[1]),
@@ -45,7 +45,7 @@
             visina];
    }
    function polozaj_stanja(model, q){
-    return caml_call2(Stdlib_List[49], q, model[2]);
+    return caml_call2(Stdlib_List[46], q, model[2]);
    }
    function update(model, param){
     if(typeof param === "number")
@@ -70,7 +70,7 @@
         q$0 = match$0[1],
         polozaji =
           caml_call2
-           (Stdlib_List[20],
+           (Stdlib_List[19],
             function(param){
              var
               position$0 = param[2],

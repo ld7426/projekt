@@ -68,7 +68,7 @@ let dotprod matrikaa matrikab = (*kot dot product samo z booli*)
   done;
   !vsota
 
-let init_matrix rows cols f = (*ta funkcija bi mogla bit že definirana je pisal na spletu??? *)
+let init_matrix rows cols f = (*ta funkcija bi mogla bit že definirana je pisal na spletu??? POZOR, definirana tukaj in v pravila.ml *)
   Array.init rows (fun i -> Array.init cols (fun j -> f i j))
 
 
