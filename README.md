@@ -6,18 +6,20 @@
 Glavna datoteka je grafika.ml, pomožni sta pravila.ml in izlocisosede.ml. Na začetku datoteka vpraša za višino in širino, čeprav ni izpisanega stringa za to
 mogoče bi še grafiko dal posebej da bo main lepo kratek in naredil .mli datoteke za vsako stvar, idk
 
-TODO: ugotoviti, zakaj širina večja od 10 ne dela, preveriti, če je s pravili vse v redu, da so res periodični boundary conditioni
+TODO: ugotoviti, zakaj širina večja od *višine* ne dela, preveriti, če je s pravili vse v redu, da so res periodični boundary conditioni
 
-TODO: Narediti customizable pravila - dodaten gumb, ki bo zaprl graf in nas vprašal za velikost n, potem se ofpre nazaj grafika in nam pokaže 2n+1 veliko tabelo, ki jo obkljukamo/odkljukamo, nato pa izberemo meje, kdaj živa umre in mrtva oživi
+TODO: Narediti customizable pravila - dodaten gumb, ki bo zaprl graf in nas vprašal za velikost n, potem se odpre nazaj grafika in nam pokaže 2n+1 veliko tabelo, ki jo obkljukamo/odkljukamo, nato pa izberemo meje, kdaj živa umre in mrtva oživi
 Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to sklepa, ali umre ali živi, bom pa dopustil uporabo zapletenih okolic.
 
-TODO: Spremeniti velikost celic, da so pri velikih tabelah posamezni kvadratki majhni, ker ne sme biti fiksna veliksot 100
+TODO: Spremeniti velikost celic, da so pri velikih tabelah posamezni kvadratki majhni, ker ne sme biti fiksna velikost 100 DONE
+TODO: Izboljšati posodabljanje celic, da posodabljamo res samo tiste celice, ki se spremenijo, drugače se mi zdi, da tole vzame preveč časa in zgleda glitchy
 
 TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb
 
 poganjanje: dune build
 ./grafika.exe
-
+(vnesi višino)
+(vnesi širino)
 Zaenkrat so zraven še vse profesorjeve datoteke, da si lahko pomagam z njimi, na koncu jih moram odstraniti
 
 # Končni avtomati

@@ -6,7 +6,11 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
+let praznamatrika m n =
+  Array.init rows (fun i -> Array.init cols (fun j -> false))
 
+let polnamatrika m n =
+  Array.init rows (fun i -> Array.init cols (fun j -> true))
 
 let rec randomarray n =
 match n with
@@ -29,13 +33,19 @@ Graphics.open_graph zacetnistring
 
 let zaprigraf = Graphics.close_graph
 
+
 (*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
 let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
-match vrstica with
-| true::[] -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica;
-| true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
-| false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
-| _ -> ()
+let barva = point_color (i*stranica) (j*stranica + 200) in
+match barva with
+| black -> match vrstica with
+  | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
+  | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
+  | _ -> ()
+| white -> match vrstica with
+  | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
+  | false :: tail -> narisigrafpovrstici tail (i+1) j stranica
+  | _ -> ()
 
 
 let rec obrniseznam seznam =(*hkrati spremeni emelente iz Arraya v list*)
@@ -65,7 +75,7 @@ let is_inside x y bx by bwidth bheight =
 let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
-let narisimatriko matrika=
+let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in 
 pomoznanarisiseznam seznam 0 0 stranica;
@@ -109,8 +119,9 @@ let _ =
   let visina = read_int () in
   let sirina = read_int () in
   let nekamatrika = randommatrika visina sirina in
-  naredi_graf nekamatrika;
-  narisimatriko nekamatrika;
+  let prejsnjamatrika = praznamatrika visina sirina in
+  naredi_graf prejsnjamatrika;
+  narisimatriko nekamatrika prejsnjamatrika;
   
 (*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
 let rec event_loop () =
