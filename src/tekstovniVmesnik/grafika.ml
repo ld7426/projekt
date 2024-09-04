@@ -50,12 +50,13 @@ else match vrstica with
 *)
 let rec narisigrafpovrstici vrstica i j stranica = 
   let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
+  let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
   if barva = white then 
     match vrstica with
     | true :: [] -> 
-      fill_rect (i * stranica) (j * stranica + 200) stranica stranica
+      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
     | true :: tail -> 
-        fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
+        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
         narisigrafpovrstici tail (i + 1) j stranica
     | false :: [] -> 
       ()
@@ -70,11 +71,11 @@ let rec narisigrafpovrstici vrstica i j stranica =
         narisigrafpovrstici tail (i + 1) j stranica
     | false :: [] ->
       set_color white; 
-      fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
+      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
       set_color black
     | false :: tail -> 
         set_color white; 
-        fill_rect (i * stranica) (j * stranica + 200) stranica stranica; 
+        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
         set_color black; 
         narisigrafpovrstici tail (i + 1) j stranica
     | _ -> ()
@@ -120,7 +121,9 @@ let spremeni_matriko matrika m n =
 let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in 
+auto_synchronize false; (*da ne utripa preveč*)
 pomoznanarisiseznam seznam 0 0 stranica;
+auto_synchronize true;
 naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod"
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
