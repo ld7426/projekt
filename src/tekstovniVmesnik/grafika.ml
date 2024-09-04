@@ -7,10 +7,10 @@ open Izlocisosede
 (*open Brr*)
 
 let praznamatrika m n =
-  Array.init rows (fun i -> Array.init cols (fun j -> false))
+  Array.init m (fun i -> Array.init n (fun j -> false))
 
 let polnamatrika m n =
-  Array.init rows (fun i -> Array.init cols (fun j -> true))
+  Array.init m (fun i -> Array.init n (fun j -> true))
 
 let rec randomarray n =
 match n with
