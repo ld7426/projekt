@@ -138,8 +138,8 @@ let korakmatrike matrika =
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-let seznam = obrniseznam (Array.to_list matrika) in
-pomoznanarisiseznam seznam 0 0 stranica;
+(*let seznam = obrniseznam (Array.to_list matrika) in
+pomoznanarisiseznam seznam 0 0 stranica;*)
 naredi_gumb 400 75 100 50 "Koncano";
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
@@ -150,6 +150,10 @@ if ym<0 then () (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z G
 else 
   begin
     spremeni_matriko matrika (Array.length matrika - ym -1) xm;
+    if matrika.(Array.length matrika - ym -1).(xm) then set_color black
+    else set_color white;
+    fill_rect (xm*stranica) (ym*stranica + 200) (stranica-1) (stranica-1);
+    set_color black;
     rocnasprememba matrika
   end
 
@@ -183,6 +187,8 @@ let rec event_loop () =
       else if is_inside status.mouse_x status.mouse_y 250 75 100 50 then
         begin
           Graphics.clear_graph();
+          let seznam = obrniseznam (Array.to_list matrika) in
+          pomoznanarisiseznam seznam 0 0 stranica;
           rocnasprememba nekamatrika;
           Graphics.clear_graph();
           narisimatriko nekamatrika;
