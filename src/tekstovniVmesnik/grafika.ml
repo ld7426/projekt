@@ -6,11 +6,11 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
-let praznamatrika m n =
-  Array.init m (fun i -> Array.init n (fun j -> false))
+(*let praznamatrika m n =
+  Array.make m (Array.make n false)
 
 let polnamatrika m n =
-  Array.init m (fun i -> Array.init n (fun j -> true))
+  Array.make m (Array.make n true)*)
 
 let rec randomarray n =
 match n with
@@ -37,15 +37,15 @@ let zaprigraf = Graphics.close_graph
 (*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
 let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
 let barva = point_color (i*stranica) (j*stranica + 200) in
-match barva with
-| black -> match vrstica with
-  | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
-  | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
-  | _ -> ()
-| white -> match vrstica with
+if barva = white then match vrstica with (*white je mrtev, torej false*)
   | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
   | false :: tail -> narisigrafpovrstici tail (i+1) j stranica
   | _ -> ()
+else match vrstica with
+  | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
+  | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
+  | _ -> ()
+
 
 
 let rec obrniseznam seznam =(*hkrati spremeni emelente iz Arraya v list*)
