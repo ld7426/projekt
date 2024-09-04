@@ -6,10 +6,10 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
-(*let praznamatrika m n =
+let praznamatrika m n =
   Array.make m (Array.make n false)
 
-let polnamatrika m n =
+(*let polnamatrika m n =
   Array.make m (Array.make n true)*)
 
 let rec randomarray n =
