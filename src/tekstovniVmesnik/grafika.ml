@@ -49,7 +49,7 @@ else match vrstica with
 
 *)
 let rec narisigrafpovrstici vrstica i j stranica = 
-  let barva = point_color (i * stranica) (j * stranica + 200) in
+  let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
   if barva = white then 
     match vrstica with
     | true :: [] -> 
