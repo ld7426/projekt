@@ -121,7 +121,7 @@ let _ =
   let nekamatrika = randommatrika visina sirina in
   let prejsnjamatrika = praznamatrika visina sirina in
   naredi_graf prejsnjamatrika;
-  narisimatriko nekamatrika prejsnjamatrika;
+  narisimatriko nekamatrika;
   
 (*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
 let rec event_loop () =
