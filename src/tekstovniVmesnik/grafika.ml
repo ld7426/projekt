@@ -143,16 +143,16 @@ let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
 let izrisisamomatriko matrika stranica=
-for i = 0 to Array.length matrika - 1 do
-  for j = 0 to Array.length matrika.(0) - 1 do
+for i = 0 to Array.length matrika.(0) - 1 do
+  for j = 0 to Array.length matrika - 1 do
     let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
     let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
     if barva = white then 
-      match matrika.(i).(j) with
+      match matrika.(i).(Array.length matrika - j -1) with
       |true -> fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
       |false -> ()
     else 
-      match matrika.(i).(j) with
+      match matrika.(i).(Array.length matrika - j -1) with
       |true -> ()
       |false -> set_color white; fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; set_color black
   done
