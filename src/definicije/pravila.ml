@@ -26,54 +26,14 @@ recimo da damo preprosto tako:
 -> Živ in 9 sosedov potem umre
 
 *)
-let rec sestejlist seznam =
-match seznam with
-| true ::tail -> 1 + (sestejlist tail)
-| false :: tail -> sestejlist tail
-|[] -> 0
-
-
-let spremeni_stanje sosedilist trenutno_stanje =
-let zivisosedi = sestejlist sosedilist in
-if zivisosedi <=4 && (not trenutno_stanje) then false
-else if zivisosedi <=3 && trenutno_stanje then false
-else if not trenutno_stanje then true
-else if zivisosedi<=8 then true
-else false
-
-let spremeni_stanje_zivi zivisosedi trenutno_stanje =
-if zivisosedi <=3 && (not trenutno_stanje) then false
-else if zivisosedi <=1 && trenutno_stanje then false
-else if not trenutno_stanje then true
-else if zivisosedi<=8 then true
-else false
-
-
-let matrikasestejizloceni izloci matrika =
-let m = Array.length matrika in
-let n = Array.length matrika.(0) in
-Array.init m (fun i -> Array.init n (fun j -> sestejlist @@ izloci matrika m n i j))
-
-let kopirajmatriko matrika = (*za sprobavat sem rabil to funkcijo, da nisem spreminjal matrike*)
-Array.map Array.copy matrika
-
-let korak izloci matrika = (*glavna funkcija ki jo kličemo skupaj s funkcijo izlocisosede iz izlocisosede.ml, primer: let trenutna = korak izlocisosede zacetnamatrika *)
-let m = Array.length matrika in
-let n = Array.length matrika.(0) in
-Array.init m (fun i -> Array.init n (fun j -> spremeni_stanje_zivi (sestejlist @@ izloci matrika m n i j) matrika.(i).(j) ))
-
-let zacetnamatrika = [|[|false; true; true; true; true; true; true|]; (* za večje primere si je najbolje generirati naključno matriko z ukazom: let matrika = randommatrika m n, ki je v izlocisosede.ml*)
-    [|false; true; true; true; true; true; true|];
-    [|true; true; true; true; true; true; true|];
-    [|false; false; true; true; true; false; true|];
-    [|false; false; false; true; false; true; false|]|]
-    
+   
     
 (*želim funkcijo, ki vzame matriko dobljeno z izločeno in na podlagi pravila določi ali bo nov element živ ali ne, mogoče modificiram matriko s številom sosedov, da vključuje podatek, ali je kvaddratek sam živ ali mrtev*)
 (*ideja za pravila je npr urejen seznam mej med tem, ali so živi ali mrtvi*)
 (*druga ideja je samo seznam vseh vrednosti, za katere ostane živ*)
 let rec notri element mnozica=
-match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil...*)
+match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil efficiently, hopefully ima ocaml že implementirano,
+da je    true || (KARKOLI) = true    kar pa malo dvomim...    ...*)
 |h::t -> (h==element) || (notri element t)
 |[] -> false
 

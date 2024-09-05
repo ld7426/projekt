@@ -39,23 +39,6 @@ let boolofint = function
 | 0 -> false
 | _ -> true
 
-let izpisisosedeint sosedi = 
-match sosedi with 
-| prvi::drugi::tretji::cetrti::peti::sesti::sedmi::osmi::deveti::[] -> izpisimatrikoint [|[|0;prvi;0;drugi;0;0|]; [|tretji; cetrti; 0; peti; sesti; 0|]; [|0; sedmi; 0; osmi; 0; deveti|]|]
-| _ -> izpisimatrikoint (Array.make_matrix 3 6 0)
-
-let izlocisosede matrika m n i j = (* m = st_vrstic, n= st_stolpcev, i,j sta koordinati trenutnega polja *)
-let prvi = matrika.((i-1+m) mod m).((j-1+n) mod n) in
-let drugi = matrika.((i-1+m) mod m).((j+1)  mod n) in
-let tretji = matrika.(i mod m).((j-2+n)  mod n) in
-let cetrti = matrika.(i mod m).((j-1+n)  mod n) in
-let peti = matrika.(i mod m).((j+1) mod n) in
-let sesti = matrika.(i mod m).((j+2) mod n) in
-let sedmi = matrika.((i+1) mod m).((j-1+n) mod n) in
-let osmi = matrika.((i+1) mod m).((j+1) mod n) in
-let deveti = matrika.((i+1) mod m).((j+3) mod n) in
-prvi::drugi::tretji::cetrti::peti::sesti::sedmi::osmi::deveti::[]
-
 
 let dotprod matrikaa matrikab = (*kot dot product samo z booli*)
   let m = Array.length matrikaa in
