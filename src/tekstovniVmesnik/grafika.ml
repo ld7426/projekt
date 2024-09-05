@@ -77,7 +77,7 @@ let spremeni_matriko matrika m n =
 let izrisisamomatriko matrika stranica=
 set_color white;
 fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
-set_color black;
+set_color black; (*letsgo, to da sem dal stran point_color pa zej barvam sam črne je ene desetkrat pohitrilo benchmark 10x100x200*)
 for i = 0 to Array.length matrika.(0) - 1 do
   for j = 0 to Array.length matrika - 1 do
     let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
