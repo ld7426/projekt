@@ -46,11 +46,25 @@ let init_matrix rows cols f = (* POZOR!!!funkcija definirana tukaj in v izlociso
   Array.init rows (fun i -> Array.init cols (fun j -> f i j))
 
 
-let naredikorak matrikasosedov (pravilazivi, pravilamrtvi)=
+(*let naredikorak matrikasosedov (pravilazivi, pravilamrtvi)=
 let m = Array.length matrikasosedov in
 let n = Array.length matrikasosedov.(0) in
 init_matrix m n (fun i j -> pravilo matrikasosedov.(i).(j) (pravilazivi, pravilamrtvi))
 (*funkcija init_matrix je iz izlocisosede, a bo to problem ko bom poganjal?*)
+
+let naredimatrikovsot celamatrika matrikasosescine =
+  let m = Array.length celamatrika in
+  let n = Array.length celamatrika.(0) in 
+  let k = Array.length matrikasosescine in 
+  init_matrix m n (fun i j -> (celamatrika.(i).(j), (izlocivsotososedov celamatrika matrikasosescine k i j)))*)
+
+(*hočem definirati funkcijo poenotenkorak, ki se bo obnašala kot funkcija naredikorak (naredimatrikovsot !matrika sosedi) pravila*)
+
+let poenotenkorak matrika sosedi pravila =
+  let m = Array.length matrika in
+  let n = Array.length matrika.(0) in
+  let k = Array.length sosedi in  
+  init_matrix m n (fun i j -> pravilo (matrika.(i).(j), (izlocivsotososedov matrika sosedi k i j)) pravila)
 
 (*conway*)
 let zacetnapravila = ([2;3], [3]) (*Conway*)

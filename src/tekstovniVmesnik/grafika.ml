@@ -93,15 +93,10 @@ izrisisamomatriko matrika stranica;
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod; naredi_gumb gumbsosedska;
 synchronize ()
 
-(*let spremeniprvomatriko prvamatrika drugamatrika = (*to je zelo slaba funkcija za uporabo pomoje, reference so ziher velik boljše*)
-  for i = 0 to Array.length prvamatrika - 1 do
-    for j = 0 to Array.length prvamatrika.(0) - 1 do
-      prvamatrika.(i).(j) <- drugamatrika.(i).(j)
-    done
-  done*)
 
 let korakmatrike matrika sosedi pravila =
-  matrika := (naredikorak (naredimatrikovsot !matrika sosedi) pravila)
+  matrika := poenotenkorak !matrika sosedi pravila
+  (*matrika := (naredikorak (naredimatrikovsot !matrika sosedi) pravila)*)
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
