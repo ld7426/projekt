@@ -27,7 +27,7 @@ let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
 let stranicakvadrata = min (1024/n) (450/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
-let sirina = max n*stranicakvadrata 420 in
+let sirina = (max n*stranicakvadrata 420) in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
 Graphics.open_graph zacetnistring;
