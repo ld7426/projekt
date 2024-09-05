@@ -56,12 +56,6 @@ let init_matrix rows cols f = (*ta funkcija bi mogla bit že definirana je pisal
 
 
 let mojmod x m = ((x mod m)+m) mod m (*če je negativno nam da iz druge strani m-ja, ker drugače nam da -2 mod 3 = -2, zdaj je pa 1*)
-  
-  
-let izlocisosedskomatriko celamatrika k prviindeks drugiindeks = (* dobimo matriko sosedov kvadrata i j *)
-let m = Array.length celamatrika in
-let n = Array.length celamatrika.(0) in
-init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))(*ker matrika sosedov je 2l+1x2l+1 =kxk, indekse pa rabim klicati pravilno*)
 
 let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
   let m = Array.length celamatrika in
@@ -77,10 +71,6 @@ let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
     done
   done;
   !vsota
-
-
-
-(*init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))*)
 
 let naredimatrikovsot celamatrika matrikasosescine =
 let m = Array.length celamatrika in
