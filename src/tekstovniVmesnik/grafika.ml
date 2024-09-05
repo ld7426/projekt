@@ -6,10 +6,10 @@ open Pravila
 (*########################################################################################################*)
 (*definicija velikosti zaslona, jaz sem delal na 1080x768, tako da sem rekel, da lahko riše le majhne zaslone*)
 (*globalne, ki ostanejo konstantne pri izvajanju*)
-let sirinazaslona = 1080 in
-let dejsirina = sirinazaslona -60
+let sirinazaslona = 1080
+let dejsirina = sirinazaslona - 60
 
-let visinazaslona = 768 in
+let visinazaslona = 768
 let dejvisina = visinazaslona - 280
 
 (*########################################################################################################*)
