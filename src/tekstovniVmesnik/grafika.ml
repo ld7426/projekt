@@ -112,10 +112,14 @@ type gumb = {
   height: int; 
   label: string}
 
-
+(*gumbi na zacetnem*)
 let gumbnaprej = {x = 20; y = 75; width = 100; height = 50; label = "Naprej"}
 let gumbnastavi = {x = 170; y = 75; width = 100; height = 50; label = "Nastavi"}
 let gumbizhod = {x = 320; y = 75; width = 100; height = 50; label = "Izhod"}
+
+(*gumbi na nastavi*)
+let gumbprazna = {x = 20; y = 75; width = 100; height = 50; label = "Prazna"}
+let gumbpolna = {x = 170; y = 75; width = 100; height = 50; label = "Polna"}
 let gumbkonc = {x = 320; y = 75; width = 100; height = 50; label = "Koncano"}
 
 
@@ -146,7 +150,7 @@ synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
   for i = 0 to Array.length prvamatrika - 1 do
-    for j = 0 to Array.length prvamatrika - 1 do
+    for j = 0 to Array.length prvamatrika.(0) - 1 do
       prvamatrika.(i).(j) <- drugamatrika.(i).(j)
     done
   done
@@ -158,7 +162,7 @@ let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 (*let seznam = obrniseznam (Array.to_list matrika) in
 pomoznanarisiseznam seznam 0 0 stranica;*)
-naredi_gumb gumbkonc;
+naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc;
 synchronize ();
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
@@ -166,6 +170,28 @@ let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status
 if ym<0 then () (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak to mi je boljše, da lahko kjerkoli spodaj kliknem, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
+  if is_inside status.mouse_x status.mouse_y gumbprazna then 
+    for i = 0 to Array.length matrika - 1 do
+      for j = 0 to Array.length matrika.(0) - 1 do
+        prvamatrika.(i).(j) <- false
+      done
+    done;
+    set_color white;
+    fill_rect 0 200 ((Array.length matrika)*stranica-1) ((Array.length matrika.(0))*stranica-1);
+    set_color black;
+    synchronize ();
+    rocnasprememba matrika
+  else if is_inside status.mouse_x status.mouse_y gumbpolna then 
+    for i = 0 to Array.length matrika - 1 do
+      for j = 0 to Array.length matrika.(0) - 1 do
+        prvamatrika.(i).(j) <- true
+      done
+    done;
+    fill_rect 0 200 ((Array.length matrika)*stranica-1) ((Array.length matrika.(0))*stranica-1);
+    synchronize ();
+    rocnasprememba matrika
+  else if is_inside status.mouse_x status.mouse_y gumbkonc then ()
+  else rocnasprememba matrika
 else 
   begin
     spremeni_matriko matrika (Array.length matrika - ym -1) xm;
