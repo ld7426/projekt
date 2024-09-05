@@ -163,7 +163,7 @@ let rec dodajkseznamu seznam =
 
 
 let _ =
-  "Vnesi št. korakov pred vsakim prikazom: ";
+  print_string "Vnesi št. korakov pred vsakim prikazom: ";
   let stkorakov = read_int () in
   let k =  ref zacetnik in
   let sosedi = ref zacetnisosedi in
