@@ -20,7 +20,49 @@ Program se poganja v Linux terminalu z naslednjima ukazoma:
 Nato vnesemo želeno število korakov med dvema zaporednima prikazoma na zaslonu (risanje na zaslon je precej potratno s časom, tako da se lahko izbere npr. možnost, da se izpiše vsak tisoči korak, če nas zanimajo le končna stanja).
 Sledi vnos želene velikosti tabele. Tabelo je smiselno narediti manjšo od `200x400`, da je risanje še smiselno hitro in je resolucija dovolj velika.
 
-|![frontpage.png](./slike/frontpage.png)|
+| ![frontpage.png](./slike/frontpage.png) |
+|:--:| 
+| Prva stran celičnega projekta |
+
+Ko se projekt inicializira je začetna postavitev nastavljena naključno. Črna barva predstavlja žive celice in bela barva mrtve. Na dnu zaslona so štirje gumbi:
+
+## `naprej`
+Ob kliku na gumb se vsaka celica na vrhu spremeni po določenem pravilu. Osnovna pravila so enaka kot pri Conwayevi [Igri Življenja](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). V kolikor uporabnik pravila spremeni se seveda upošteva nastavljena pravila. Če je izbrano število korakov med zaporednima prikazoma večje od $1$, tedaj se ne prikaže vsak korak evolucije.
+
+## `nastavi`
+Gumb nas odpelje na novo stran, kjer lahko s klikom na celice spremenimo njihovo trenutno stanje. Če je celica, na katero smo kliknili, bila živa, je sedaj mrtva in obratno. Za priročnost sta dodana še gumba `Prazna` in `Polna`, ki nastavita vse celice na mrtve ali pa vse celice na žive. Ko smo končali z nastavitvijo se s klikom na gumb `Koncano` vrnemo na prejšnjo stran.
+
+| ![nastavi.png](./slike/nastavi.png) |
+|:--:| 
+| Nastavitvena stran |
+
+## `sosedje`
+
+Ob kliku na ta gumb se okno zapre in nas v ukazni vrstici program vpraša za želeno velikost matrike sosedov. Vpisati je potrebno liho naravno število $2k+1$, iz katerega se nato ustvari $(2k+1)\times (2k+1)$ matrika sosedov, kjer centralni element predstavlja celico, ki jo gledamo, za sosede pa lahko definiramo celice, ki so za največ $k$ oddaljene od opazovane celice glede na [razdaljo Čebiševa](https://en.wikipedia.org/wiki/Chebyshev_distance).
+
+Nato se odpre povsem identično okno kot pri gumbu `nastavi` in z enakimi operacijami sedaj izberemo, katere celice bomo obravnavali kot sosede centralne celice. Celice označeno s črno se bodo upoštevale kot sosednje celice, neoznačene celice pa ne. Večinoma se za sosede obravnava neko simetrično okolico okoli centralnega elementa, ni pa to nujno. Centralni element je lahko tudi sosed samemu sebi, če to tako označimo.
+
+| ![sosedje.png](./slike/sosedje.png) |
+|:--:| 
+| Nastavitev matrike sosedov |
+
+
+Ko smo zadovolnji z izbiro kliknemo gumb `konec` in okno se zapre in v ukazni vrstici nam izpiše izbrano sosedsko matriko. Nato nas vpraša po pravilih za žive celice.
+
+Implementirana pravila so omejena na funkcije, ki imajo za argumenta le trenutno stanje opazovane celice in število vseh živih sosedov glede na definirano sosedsko matriko.
+
+Pravilo za žive celice je seznam nenegativnih celih števil, ki vsebuje vse vrednosti števil živih sosedov, za katere želimo, da opazovana celica ostane živa. Vrednosti vnašamo zaporedoma in jih ločujemo s tipko `Enter`. Ko smo vnesli vse želene vrednosti, vnos zaključimo z vpisom števila $-1$.
+
+Povsem ekvivalentno je pravilo za mrtve celice, ki torej vsebuje vse vrednosti števil živih sosedov, za katere želimo, da opazovana celica oživi. Vnos spet zaključimo s številom $-1$.
+
+Ob zadnjem vnosu števila $-1$ se nam nazaj odpre osnovno okno in lahko nadaljujemo s koraki glede na novo definirana pravila.
+
+| ![pravila.png](./slike/pravila.png) |
+|:--:| 
+| Nastavitev pravil |
+
+## `izhod`
+Okno se zapre in program se zaključi
 
 
 
