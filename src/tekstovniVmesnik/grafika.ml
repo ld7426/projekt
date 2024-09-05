@@ -207,7 +207,7 @@ let rec event_loop () =
         begin
           zaprigraf ();
           k := read_int ();
-          k := (k/2)*2 + 1; (*da je k lih*)
+          k := (!k/2)*2 + 1; (*da je k lih*)
           sosedi := praznamatrika !k !k;
           naredi_graf !sosedi;
           izrisisamomatriko !sosedi (450/(!k));
