@@ -26,7 +26,7 @@ match m with
 let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
-let stranicakvadrata = min (1024/n) (512/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
+let stranicakvadrata = min (1024/n) (450/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
 let sirina = n*stranicakvadrata in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
@@ -34,76 +34,6 @@ Graphics.open_graph zacetnistring;
 auto_synchronize false
 
 let zaprigraf = Graphics.close_graph
-
-(*
-(*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
-let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
-let barva = point_color (i*stranica) (j*stranica + 200) in
-if barva = white then match vrstica with (*white je mrtev, torej false*)
-  | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
-  | false :: tail -> narisigrafpovrstici tail (i+1) j stranica
-  | _ -> ()
-else match vrstica with
-  | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
-  | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
-  | _ -> ()
-
-
-*)
-(*
-let rec narisigrafpovrstici vrstica i j stranica = 
-  let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
-  let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
-  if barva = white then 
-    match vrstica with
-    | true :: [] -> 
-      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
-    | true :: tail -> 
-        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
-        narisigrafpovrstici tail (i + 1) j stranica
-    | false :: [] -> 
-      ()
-    | false :: tail -> 
-        narisigrafpovrstici tail (i + 1) j stranica
-    | _ -> ()
-  else 
-    match vrstica with
-    | true :: [] -> 
-      ()
-    | true :: tail -> 
-        narisigrafpovrstici tail (i + 1) j stranica
-    | false :: [] ->
-      set_color white; 
-      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
-      set_color black
-    | false :: tail -> 
-        set_color white; 
-        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
-        set_color black; 
-        narisigrafpovrstici tail (i + 1) j stranica
-    | _ -> ()
-*)
-
-
-(*let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
-match vrstica with
-| true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
-| false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
-| _ -> ()
-*)
-
-
-(*
-let rec obrniseznam seznam =(*hkrati spremeni elemente iz Arraya v list*)
-match seznam with
-| head :: tail -> (obrniseznam tail) @ [Array.to_list head]
-| [] -> []
-
-let rec pomoznanarisiseznam seznam i j stranica= (*Sprejme matriko v obliki list list in indeksa i in j*)
-match seznam with
-| head :: tail -> narisigrafpovrstici head i j stranica; pomoznanarisiseznam tail i (j+1) stranica
-| [] -> ()
-*)
 
 (*definicije gumbov*)
 type gumb = {
@@ -159,11 +89,8 @@ for i = 0 to Array.length matrika.(0) - 1 do
 done
 
 let narisimatriko matrika =
-let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
+let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
 izrisisamomatriko matrika stranica;
-(*let seznam = obrniseznam (Array.to_list matrika) in *)
-(*pomoznanarisiseznam seznam 0 0 stranica;*)
-
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
 synchronize ()
 
@@ -178,7 +105,7 @@ let korakmatrike matrika =
   spremeniprvomatriko matrika (korak izlocisosede matrika)
 
 let rec rocnasprememba matrika =
-let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
+let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
 (*let seznam = obrniseznam (Array.to_list matrika) in
 pomoznanarisiseznam seznam 0 0 stranica;*)
 naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc;
@@ -241,7 +168,7 @@ else
 let _ =
   let visina = read_int () in
   let sirina = read_int () in
-  let stranica = min (1024/(sirina)) (512/(visina)) in
+  let stranica = min (1024/(sirina)) (450/(visina)) in
   let nekamatrika = randommatrika visina sirina in
   naredi_graf nekamatrika;
   narisimatriko nekamatrika;
