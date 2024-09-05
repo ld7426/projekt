@@ -102,7 +102,7 @@ let spremeniprvomatriko prvamatrika drugamatrika =
   done
 
 let korakmatrike matrika =
-  spremeniprvomatriko matrika (korak izlocisosede matrika)
+  spremeniprvomatriko matrika (naredikorak (naredimatrikovsot matrika zacetnisosedi) zacetnapravila)
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in

@@ -84,4 +84,4 @@ let naredimatrikovsot celamatrika matrikasosescine =
 let m = Array.length celamatrika in
 let n = Array.length celamatrika.(0) in 
 let k = Array.length matrikasosescine in 
-init_matrix m n (fun i j -> (dotprod (izlocisosedskomatriko celamatrika k i j) matrikasosescine))
+init_matrix m n (fun i j -> (celamatrika.(i).(j), (dotprod (izlocisosedskomatriko celamatrika k i j) matrikasosescine)))

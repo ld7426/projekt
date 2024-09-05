@@ -95,4 +95,4 @@ init_matrix m n (fun i j -> pravilo matrikasosedov.(i).(j) (pravilazivi, pravila
 (*conway*)
 let zacetnapravila = ([2;3], [3]) (*Conway*)
 let zacetnik = 3
-let zacetnisosedi = [|[|false; true; false|]; [|true; false; true|]; [|false; true; false|]|]
+let zacetnisosedi = [|[|true; true; true|]; [|true; false; true|]; [|true; true; true|]|]
