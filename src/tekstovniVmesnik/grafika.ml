@@ -2,8 +2,9 @@
 open Graphics
 open Unix
 open Definicije
-open Pravila
 open Izlocisosede
+open Pravila
+
 (*open Brr*)
 
 (*nigga pretepel te bom če ne boš commital*)
