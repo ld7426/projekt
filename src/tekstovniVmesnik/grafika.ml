@@ -31,7 +31,8 @@ let stranicakvadrata = min (1024/n) (512/m) in (*hočem da je maks 1024x712, da 
 let sirina = n*stranicakvadrata in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
-Graphics.open_graph zacetnistring
+Graphics.open_graph zacetnistring;
+auto_synchronize false
 
 let zaprigraf = Graphics.close_graph
 
@@ -123,10 +124,9 @@ let spremeni_matriko matrika m n =
 let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in 
-auto_synchronize false; (*da ne utripa preveč*)
 pomoznanarisiseznam seznam 0 0 stranica;
-auto_synchronize true;
-naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod"
+naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod";
+synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
   for i = 0 to Array.length prvamatrika - 1 do
@@ -143,6 +143,7 @@ let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika 
 (*let seznam = obrniseznam (Array.to_list matrika) in
 pomoznanarisiseznam seznam 0 0 stranica;*)
 naredi_gumb 400 75 100 50 "Koncano";
+synchronize ();
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
 let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status-200)/stranica se npr -10/stranica zaokroži lahko na 0*)
@@ -156,6 +157,7 @@ else
     else set_color white;
     fill_rect (xm*stranica) (ym*stranica + 200) (stranica-1) (stranica-1);
     set_color black;
+    synchronize ();
     rocnasprememba matrika
   end
 
