@@ -190,9 +190,12 @@ let rec event_loop () =
     begin
       if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
-          for i = 0 to 10 do
-            korakmatrike nekamatrika !sosedi !pravila;
-          done;
+          let rec veckorakov i = function
+          |0 -> ()
+          |n -> korakmatrike nekamatrika !sosedi !pravila; desetkorakov i-1
+          in
+          veckorakov 10;
+          
           korakmatrike nekamatrika !sosedi !pravila;
           narisimatriko nekamatrika;
           event_loop ()
