@@ -3,15 +3,21 @@ open Graphics
 open Unix
 open Definicije
 open Pravila
+(*########################################################################################################*)
+(*definicija velikosti zaslona, jaz sem delal na 1080x768, tako da sem rekel, da lahko riše le majhne zaslone*)
+(*globalne, ki ostanejo konstantne pri izvajanju*)
+let sirinazaslona = 1080 in
+let dejsirina = sirinazaslona -60
 
-(*open Brr*)
+let visinazaslona = 768 in
+let dejvisina = visinazaslona - 280
 
-(*nigga pretepel te bom če ne boš commital*)
+(*########################################################################################################*)
+
+(*###*)
+(*definicija inicializacije matrik*)
 let praznamatrika m n =
   Array.make_matrix m n false
-
-(*let polnamatrika m n =
-  Array.make m (Array.make n true)*)
 
 let rec randomarray n =
 match n with
@@ -23,10 +29,18 @@ match m with
 | 0 -> [| |]
 | k -> Array.append [|randomarray n|] (randommatrika (k-1) n)
 
+let rec dodajkseznamu seznam =
+  let x = read_int () in
+  if x = -1 then seznam
+  else dodajkseznamu (x::seznam)
+
+
+(*########################################################################################################*)
+(*glavne grafične stvari za inicializacijo*)
 let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
-let stranicakvadrata = min (1024/n) (450/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
+let stranicakvadrata = min (dejsirina/n) (dejvisina/m) in (*hočem da je maks dejsirinax712, da gre lepo na majhne resolucije kot je moja*)
 let sirina = (max (n*stranicakvadrata) 420) in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
@@ -56,9 +70,7 @@ let gumbpolna = {x = 150; y = 25; width = 100; height = 50; label = "Polna"}
 let gumbkonc = {x = 25; y = 125; width = 100; height = 50; label = "Koncano"}
 
 
-
 (*naredi gumb z danimi koordinatami in napisom*)
-
 let naredi_gumb gumbi =
   set_color green;
   fill_rect gumbi.x gumbi.y gumbi.width gumbi.height;
@@ -70,10 +82,13 @@ let naredi_gumb gumbi =
 let is_inside x y gumbi=
   x >= gumbi.x && x <= gumbi.x + gumbi.width && y >= gumbi.y && y <= gumbi.y + gumbi.height
 
-(* obrni element na poziciji m n*)
+(* negiraj na poziciji m n*)
 let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
+
+(*########################################################################################################*)
+(*definicija izrisa matrike in glavnih lastnosti grafike*)
 let izrisisamomatriko matrika stranica=
 set_color white;
 fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
@@ -88,28 +103,23 @@ for i = 0 to Array.length matrika.(0) - 1 do
 done
 
 let narisimatriko matrika =
-let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
+let stranica = min (dejsirina/(Array.length matrika.(0))) (dejvisina/(Array.length matrika )) in
 izrisisamomatriko matrika stranica;
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod; naredi_gumb gumbsosedska;
 synchronize ()
 
-
-let korakmatrike matrika sosedi pravila =
-  matrika := poenotenkorak !matrika sosedi pravila
-  (*matrika := (naredikorak (naredimatrikovsot !matrika sosedi) pravila)*)
+(*########################################################################################################*)
+(*definicija ročne spremembe matrike, tale del kode je kr ogaben, ampak ima pač kar veliko case-ov*)
+(* je pa tale del precej hiter, tako da ne vem če bi ga optimiziral*)
 
 let rec rocnasprememba matrika =
-let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
-(*let seznam = obrniseznam (Array.to_list matrika) in
-pomoznanarisiseznam seznam 0 0 stranica;*)
+let stranica = min (dejsirina/(Array.length matrika.(0))) (dejvisina/(Array.length matrika )) in
 naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc;
 synchronize ();
 let status = wait_next_event [Button_down] in
-let xm = (status.mouse_x)/(stranica) in
+let xm = (status.mouse_x)/(stranica) in (* program se sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
 let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status-200)/stranica se npr -10/stranica zaokroži lahko na 0*)
-if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak to mi je boljše, da lahko kjerkoli spodaj kliknem, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
-  (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
-  else rocnasprememba matrika*)
+if ym<0 then 
   begin
     if is_inside status.mouse_x status.mouse_y gumbprazna then
       begin
@@ -151,16 +161,18 @@ else
     rocnasprememba matrika
   end
   
-let rec dodajkseznamu seznam =
-  let x = read_int () in
-  if x = -1 then seznam
-  else dodajkseznamu (x::seznam)
+(*########################################################################################################*)
+(*Izgleda kot nedolžna funkcija ampak samo zadaj je cel pravila.ml*)
+let korakmatrike matrika sosedi pravila =
+  matrika := poenotenkorak !matrika sosedi pravila
 
 
 
 
-
-
+(*########################################################################################################*)
+(*########################################################################################################*)
+(*########################################################################################################*)
+(*ZAČETEK MAIN FUNKCIJE*)
 
 let _ =
   print_string "Vnesi št. korakov pred vsakim prikazom: ";
@@ -172,19 +184,19 @@ let _ =
   let visina = read_int () in
   print_string "\nVnesi št. stolpcev matrike: ";
   let sirina = read_int () in
-  let stranica = min (1024/(sirina)) (450/(visina)) in
+  let stranica = min (dejsirina/(sirina)) (dejvisina/(visina)) in
   let nekamatrika = ref (randommatrika visina sirina) in
-  naredi_graf !nekamatrika;
+  naredi_graf !nekamatrika; (*inicializacija grafike*)
   narisimatriko !nekamatrika;
   
-(*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
-let rec event_loop () =
+(*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž za napise na grafiki*)
+let rec event_loop () = (*glavni loop za vse stvari*)
   let status = wait_next_event [Button_down; Key_pressed] in
-  if status.keypressed && status.key = '\027' then
+  if status.keypressed && status.key = '\027' then (*ESC zapre graf*)
     zaprigraf ()
   else
     begin
-      if is_inside status.mouse_x status.mouse_y gumbnaprej then
+      if is_inside status.mouse_x status.mouse_y gumbnaprej then (*dejanski korak/naslednja iteracija*)
         begin
           let rec veckorakov = function
           |0 -> ()
@@ -192,11 +204,10 @@ let rec event_loop () =
           in
           veckorakov stkorakov;
           
-          korakmatrike nekamatrika !sosedi !pravila;
           narisimatriko !nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y gumbnastavi then
+      else if is_inside status.mouse_x status.mouse_y gumbnastavi then (*ročna nastavitev*)
         begin
           Graphics.clear_graph();
           izrisisamomatriko !nekamatrika stranica;
@@ -205,7 +216,7 @@ let rec event_loop () =
           narisimatriko !nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y gumbsosedska then
+      else if is_inside status.mouse_x status.mouse_y gumbsosedska then (*nastavitev vseh stvari glede sosedov*)
         begin
           zaprigraf ();
           print_string "\nVnesi velikost matrike sosedov: ";
@@ -213,31 +224,30 @@ let rec event_loop () =
           k := (!k/2)*2 + 1; (*da je k lih*)
           sosedi := praznamatrika !k !k;
           naredi_graf !sosedi;
-          izrisisamomatriko !sosedi (450/(!k));
+          izrisisamomatriko !sosedi (dejvisina/(!k));
           rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
           zaprigraf ();
-          print_string "\nVnesena matrika sosedov: ";
+          print_string "\nVnešena matrika sosedov: ";
           izpisimatrikobool !sosedi;
-          print_string "\nVnesi pravila za žive celice: ";
+          print_string "\nVnesi pravila za žive celice: "; (*Pravilo je samo seznam števil, in se preveri, ali je v seznamu št sosedov*)
           let pravilazivi = dodajkseznamu [] in
-          print_string "\nVnesena pravila za žive celice: ";
+          print_string "\nVnešena pravila za žive celice: ";
           izpisilistint pravilazivi;
           print_string "\nVnesi pravila za mrtve celice: ";
           let pravilamrtvi = dodajkseznamu [] in
-          print_string "\nVnesena pravila za mrtve celice: ";
+          print_string "\nVnešena pravila za mrtve celice: ";
           izpisilistint pravilamrtvi;
           pravila := (pravilazivi, pravilamrtvi);
           naredi_graf !nekamatrika;
           narisimatriko !nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y gumbizhod then
+      else if is_inside status.mouse_x status.mouse_y gumbizhod then (*zapri graf*)
         begin
           zaprigraf ();
         end
-      else
+      else (*če klikne kamorkoli drugam potem se samo še enkrat ponovi loop*)
         begin
-          narisimatriko !nekamatrika;
           event_loop ()
         end
     end
