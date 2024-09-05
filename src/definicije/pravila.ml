@@ -64,23 +64,6 @@ let intofbool = function
 | true -> 1
 | false -> 0
 
-let boolofint = function
-| 1 -> true
-| 0 -> false
-| _ -> true
-
-
-let dotprod matrikaa matrikab = (*kot dot product samo z booli*)
-  let m = Array.length matrikaa in
-  let n = Array.length matrikaa.(0) in
-  let vsota = ref 0 in
-  for i = 0 to m - 1 do
-    for j = 0 to n - 1 do
-      vsota := !vsota + (intofbool (matrikaa.(i).(j) && matrikab.(i).(j)))
-    done
-  done;
-  !vsota
-
 
 let mojmod x m = ((x mod m)+m) mod m (*če je negativno nam da iz druge strani m-ja, ker drugače nam da -2 mod 3 = -2, zdaj je pa 1*)
 
