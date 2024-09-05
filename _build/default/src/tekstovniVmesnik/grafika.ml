@@ -6,7 +6,12 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
+(*nigga pretepel te bom če ne boš commital*)
+(*let praznamatrika m n =
+  Array.make m (Array.make n false) *)
 
+(*let polnamatrika m n =
+  Array.make m (Array.make n true)*)
 
 let rec randomarray n =
 match n with
@@ -21,24 +26,74 @@ match m with
 let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
-let stranicakvadrata = min (1024/n) (512/m) in
+let stranicakvadrata = min (1024/n) (512/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
 let sirina = n*stranicakvadrata in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
-Graphics.open_graph zacetnistring
+Graphics.open_graph zacetnistring;
+auto_synchronize false
 
 let zaprigraf = Graphics.close_graph
 
+(*
 (*pazi, ker fill_rect gleda od spodaj gor namesto od zgoraj dol*)
 let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
+let barva = point_color (i*stranica) (j*stranica + 200) in
+if barva = white then match vrstica with (*white je mrtev, torej false*)
+  | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
+  | false :: tail -> narisigrafpovrstici tail (i+1) j stranica
+  | _ -> ()
+else match vrstica with
+  | true :: tail -> narisigrafpovrstici tail (i+1) j stranica
+  | false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
+  | _ -> ()
+
+
+*)
+let rec narisigrafpovrstici vrstica i j stranica = 
+  let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
+  let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
+  if barva = white then 
+    match vrstica with
+    | true :: [] -> 
+      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
+    | true :: tail -> 
+        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | false :: [] -> 
+      ()
+    | false :: tail -> 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | _ -> ()
+  else 
+    match vrstica with
+    | true :: [] -> 
+      ()
+    | true :: tail -> 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | false :: [] ->
+      set_color white; 
+      fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
+      set_color black
+    | false :: tail -> 
+        set_color white; 
+        fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; 
+        set_color black; 
+        narisigrafpovrstici tail (i + 1) j stranica
+    | _ -> ()
+
+
+
+(*let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
 match vrstica with
-| true::[] -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica;
 | true :: tail -> fill_rect (i*stranica) (j*stranica + 200) stranica stranica; narisigrafpovrstici tail (i+1) j stranica
-| false :: tail -> narisigrafpovrstici tail (i+1) j stranica
+| false :: tail -> set_color white; fill_rect (i*stranica) (j*stranica + 200) stranica stranica; set_color black; narisigrafpovrstici tail (i+1) j stranica
 | _ -> ()
+*)
 
 
-let rec obrniseznam seznam =(*hkrati spremeni emelente iz Arraya v list*)
+
+let rec obrniseznam seznam =(*hkrati spremeni elemente iz Arraya v list*)
 match seznam with
 | head :: tail -> (obrniseznam tail) @ [Array.to_list head]
 | [] -> []
@@ -49,31 +104,53 @@ match seznam with
 | [] -> ()
 
 
+(*definicije gumbov*)
+type gumb = {
+  x: int; 
+  y: int; 
+  width: int; 
+  height: int; 
+  label: string}
 
-let naredi_gumb x y width height label =
+(*gumbi na zacetnem*)
+let gumbnaprej = {x = 20; y = 75; width = 100; height = 50; label = "Naprej"}
+let gumbnastavi = {x = 170; y = 75; width = 100; height = 50; label = "Nastavi"}
+let gumbizhod = {x = 320; y = 75; width = 100; height = 50; label = "Izhod"}
+
+(*gumbi na nastavi*)
+let gumbprazna = {x = 20; y = 75; width = 100; height = 50; label = "Prazna"}
+let gumbpolna = {x = 170; y = 75; width = 100; height = 50; label = "Polna"}
+let gumbkonc = {x = 320; y = 75; width = 100; height = 50; label = "Koncano"}
+
+
+
+(*naredi gumb z danimi koordinatami in napisom*)
+
+let naredi_gumb gumbi =
   set_color green;
-  fill_rect x y width height;
+  fill_rect gumbi.x gumbi.y gumbi.width gumbi.height;
   set_color black;
-  moveto (x + 10) (y + (height / 2) - 5);
-  draw_string label
+  moveto (gumbi.x + 10) (gumbi.y + (gumbi.height / 2) - 5);
+  draw_string gumbi.label
 
 (*preveri, če je klik v gumbu*)
-let is_inside x y bx by bwidth bheight =
-  x >= bx && x <= bx + bwidth && y >= by && y <= by + bheight
+let is_inside x y gumbi=
+  x >= gumbi.x && x <= gumbi.x + gumbi.width && y >= gumbi.y && y <= gumbi.y + gumbi.height
 
 (* obrni element na poziciji m n*)
 let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
-let narisimatriko matrika=
+let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
-naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod"
+let seznam = obrniseznam (Array.to_list matrika) in 
+pomoznanarisiseznam seznam 0 0 stranica;
+naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
+synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
   for i = 0 to Array.length prvamatrika - 1 do
-    for j = 0 to Array.length prvamatrika - 1 do
+    for j = 0 to Array.length prvamatrika.(0) - 1 do
       prvamatrika.(i).(j) <- drugamatrika.(i).(j)
     done
   done
@@ -83,20 +160,57 @@ let korakmatrike matrika =
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-let seznam = obrniseznam (Array.to_list matrika) in
-Graphics.clear_graph(); pomoznanarisiseznam seznam 0 0 stranica;
-naredi_gumb 400 75 100 50 "Koncano";
+(*let seznam = obrniseznam (Array.to_list matrika) in
+pomoznanarisiseznam seznam 0 0 stranica;*)
+naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc;
+synchronize ();
 let status = wait_next_event [Button_down] in
-let xm = (status.mouse_x)/(100) in
-let ym = (status.mouse_y)/(100)-2 in
-if ym<0 then ()
+let xm = (status.mouse_x)/(stranica) in
+let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status-200)/stranica se npr -10/stranica zaokroži lahko na 0*)
+if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak to mi je boljše, da lahko kjerkoli spodaj kliknem, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
-else 
   begin
-    spremeni_matriko matrika (Array.length matrika - ym -1) xm;
+    if is_inside status.mouse_x status.mouse_y gumbprazna then
+      begin
+        for i = 0 to Array.length matrika - 1 do
+          for j = 0 to Array.length matrika.(0) - 1 do
+            matrika.(i).(j) <- false
+          done
+        done;
+        set_color white;
+        fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
+        set_color black;
+        synchronize ();
+        rocnasprememba matrika
+      end
+    else if is_inside status.mouse_x status.mouse_y gumbpolna then
+      begin
+        for i = 0 to Array.length matrika - 1 do
+          for j = 0 to Array.length matrika.(0) - 1 do
+            matrika.(i).(j) <- true
+          done
+        done;
+        fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
+        synchronize ();
+        rocnasprememba matrika
+      end
+    else if is_inside status.mouse_x status.mouse_y gumbkonc then
+      ()
+    else
+      rocnasprememba matrika
+  end
+else
+  begin
+    spremeni_matriko matrika (Array.length matrika - ym - 1) xm;
+    if matrika.(Array.length matrika - ym - 1).(xm) then set_color black
+    else set_color white;
+    fill_rect (xm * stranica) (ym * stranica + 200) (stranica - 1) (stranica - 1);
+    set_color black;
+    synchronize ();
     rocnasprememba matrika
   end
+  
 
 
 
@@ -108,6 +222,7 @@ else
 let _ =
   let visina = read_int () in
   let sirina = read_int () in
+  let stranica = min (1024/(sirina)) (512/(visina)) in
   let nekamatrika = randommatrika visina sirina in
   naredi_graf nekamatrika;
   narisimatriko nekamatrika;
@@ -119,19 +234,23 @@ let rec event_loop () =
     zaprigraf ()
   else
     begin
-      if is_inside status.mouse_x status.mouse_y 100 75 100 50 then
+      if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
           korakmatrike nekamatrika;
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 250 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y gumbnastavi then
         begin
+          Graphics.clear_graph();
+          let seznam = obrniseznam (Array.to_list nekamatrika) in
+          pomoznanarisiseznam seznam 0 0 stranica;
           rocnasprememba nekamatrika;
+          Graphics.clear_graph();
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 450 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y gumbizhod then
         begin
           zaprigraf ();
         end
