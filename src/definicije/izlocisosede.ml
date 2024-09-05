@@ -63,16 +63,17 @@ let m = Array.length celamatrika in
 let n = Array.length celamatrika.(0) in
 init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))(*ker matrika sosedov je 2l+1x2l+1 =kxk, indekse pa rabim klicati pravilno*)
 
-let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks = (* dobimo matriko sosedov kvadrata i j *)
+let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
   let m = Array.length celamatrika in
   let n = Array.length celamatrika.(0) in
   let vsota = ref 0 in
-  for i = 0 to k-1 do
+  for i = 0 to k - 1 do
     for j = 0 to k - 1 do
-      vsota := !vsota + (intofbool (celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n) && matrikasosescine.(i).(j)))
+      vsota := !vsota + (intofbool (celamatrika.(mojmod (i + prviindeks - k / 2) m).(mojmod (j + drugiindeks - k / 2) n) && matrikasosescine.(i).(j)))
     done
   done;
   !vsota
+
 
 init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))
 
