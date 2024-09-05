@@ -6,7 +6,7 @@ open Pravila
 open Izlocisosede
 (*open Brr*)
 
-
+(*nigga pretepel te bom če ne boš commital*)
 (*let praznamatrika m n =
   Array.make m (Array.make n false) *)
 
