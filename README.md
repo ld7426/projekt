@@ -3,6 +3,28 @@
 
 # Celični avtomat
 
+Projekt vsebuje implementacijo dvodimenzionalnega periodičnega [celičnega avtomata](https://en.wikipedia.org/wiki/Cellular_automaton) z možnostjo spreminjanja pravil s preprostim uporabniškim vmesnikom.
+
+## Definicija
+Celični avtomat je množica celic v (po možnosti neskončni) tabeli. Vsaka celica je lahko v končno mnogo stanjih in ima s tabelo definirane sosede.
+
+Spreminjanje celic/evolucija poteka po korakih. Stanje celice $C$ na naslednjem koraku se določi na podlagi evolucijske funkcije trenutnega stanja celice $C$ in stanja sosedov te celice.
+
+Primer, ki je implementiran dovoljuje za vsako celico natanko dve stanji `true` in `false`, ki zaporedoma ponazarjata živo in mrtvo celico. Ker na računalniku ni mogoče simulirati neskončno velike tabele se velikost tabele izbere pri zagonu programa in se uporabijo periodični robni pogoji, ki za celice na robu pomenijo da se tabela pri njih nadaljuje naprej na nasprotni rob. S tem dobimo kvadratno tabelo na torusu.
+
+# Uporaba
+Program se poganja v Linux terminalu z naslednjima ukazoma:
+`dune build`
+`./grafika.exe`
+
+Nato vnesemo želeno število korakov med dvema zaporednima prikazoma na zaslonu (risanje na zaslon je precej potratno s časom, tako da se lahko izbere npr. možnost, da se izpiše vsak tisoči korak, če nas zanimajo le končna stanja).
+Sledi vnos želene velikosti tabele. Tabelo je smiselno narediti manjšo od `200x400`, da je risanje še smiselno hitro in je resolucija dovolj velika.
+
+|![frontpage.png](./slike/frontpage.png)|
+
+
+
+
 Glavna datoteka je grafika.ml, pomožni sta pravila.ml in izlocisosede.ml. Na začetku datoteka vpraša za višino in širino, čeprav ni izpisanega stringa za to
 mogoče bi še grafiko dal posebej da bo main lepo kratek in naredil .mli datoteke za vsako stvar, idk
 
@@ -19,8 +41,8 @@ TODO naredi class gumbov, s katerimi bo lažje delati, da preverim, ali sem klik
 
 TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb DONE
 
-TODO: Ugotoviti zakaj je tako počasno??? Risanje sem zej kar pohitril, še posebej za večinoma mrtve matrike, zej pa lahko probam pohitriti še korak
-TODO: Naredi bolj user friendly, dodaj izpise, označi malo 
+TODO: Ugotoviti zakaj je tako počasno??? Risanje sem zej kar pohitril, še posebej za večinoma mrtve matrike, zej pa lahko probam pohitriti še korak delno DONE
+TODO: Naredi bolj user friendly, dodaj izpise, označi malo DONE
 
 poganjanje: dune build
 ./grafika.exe

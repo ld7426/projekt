@@ -13,8 +13,6 @@ let visinazaslona = 768
 let dejvisina = visinazaslona - 280
 
 (*########################################################################################################*)
-
-(*###*)
 (*definicija inicializacije matrik*)
 let praznamatrika m n =
   Array.make_matrix m n false

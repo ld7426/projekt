@@ -39,6 +39,7 @@ let izpisilistint listint = (*želim da izpiše list, ne pa array*)
   print_string "[]"
 
 (*let rec notri element mnozica=
+(*zamenjana funkcija s funkcijo List.mem, ki ima isto funkcionalnost, ampak je verjetno boljše napisana, ker je njihova*)
   match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil efficiently, hopefully ima ocaml že implementirano,
   da je    true || (KARKOLI) = true    kar pa malo dvomim...    ..., načeloma bodo množice relativno majhne, tako da to ne bo vplivalo preveč na performance*)
   |h::t -> (h==element) || (notri element t)
@@ -56,6 +57,7 @@ let pravilo (trenutnostanje,stsosed) (pravilazivi, pravilamrtvi) =
 
 let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
   (*funkcija prešteje število sosedov celice na mestu prviindeks drugiindeks*)
+  (*Načeloma ima array.(i).(j) O(1) čas, tako da ima ta funkcija zahtevnost enako O(k^2), ampak k in število sosedov, ki jih rabimo gledati sta dosti blizu*)
   let m = Array.length celamatrika in
   let n = Array.length celamatrika.(0) in
   let vsota = ref 0 in
@@ -73,6 +75,7 @@ let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
 let poenotenkorak matrika sosedi pravila =
   (*vrne matriko po eni iteraciji, naredi novo matriko, kar je verjetno slabo za spomin???*)
   (*verjetno bi lahko to izboljšal, če bi v matriko vključil še prejšnje vrednosti, sam bi bilo pa veliko dela in matrike bi bile 3D potem*)
+  (*Časovna zahtevnost tega je O(m*n)*O(izlocivsotososedov) = O(m*n*k^2), če rečemo da so pravila konstantna*)
   let m = Array.length matrika in
   let n = Array.length matrika.(0) in
   let k = Array.length sosedi in  
