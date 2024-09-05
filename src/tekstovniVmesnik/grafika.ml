@@ -2,7 +2,6 @@
 open Graphics
 open Unix
 open Definicije
-open Izlocisosede
 open Pravila
 
 (*open Brr*)
