@@ -25,7 +25,9 @@ match m with
 let (^^^) x y = x ^ " " ^ y
 
 let izpisimatrikobool matrika =
- Array.map (fun vrstica -> print_string ((Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^ "\n")) matrika
+  Array.iter (fun vrstica ->
+    print_string ((Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^ "\n")
+  ) matrika
 
 let mapmatrix f mat =
 Array.map (fun vrstica -> Array.map f vrstica) mat
