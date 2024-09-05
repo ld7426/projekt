@@ -80,7 +80,7 @@ let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
 
 
 
-init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))
+(*init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))*)
 
 let naredimatrikovsot celamatrika matrikasosescine =
 let m = Array.length celamatrika in
