@@ -20,11 +20,11 @@ let izpisimatrikobool matrika =
   Array.iter (fun vrstica ->
     print_string ("[|" ^ (Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^"|] \n")
   ) matrika;
-  print_string "|]\n";
+  print_string "|]\n"
 
 let izpisilistint listint = (*želim da izpiše list, ne pa array*)
   List.iter (fun x -> print_int x; print_string " :: ") listint;
-  print_string "[]";
+  print_string "[]"
 
 let rec notri element mnozica=
   match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil efficiently, hopefully ima ocaml že implementirano,
