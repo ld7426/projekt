@@ -163,11 +163,14 @@ let rec dodajkseznamu seznam =
 
 
 let _ =
+  "Vnesi št. korakov pred vsakim prikazom: ";
   let stkorakov = read_int () in
   let k =  ref zacetnik in
   let sosedi = ref zacetnisosedi in
   let pravila = ref zacetnapravila in
+  print_string "\nVnesi št. vrstic matrike: ";
   let visina = read_int () in
+  print_string "\nVnesi št. stolpcev matrike: ";
   let sirina = read_int () in
   let stranica = min (1024/(sirina)) (450/(visina)) in
   let nekamatrika = ref (randommatrika visina sirina) in
@@ -205,6 +208,7 @@ let rec event_loop () =
       else if is_inside status.mouse_x status.mouse_y gumbsosedska then
         begin
           zaprigraf ();
+          print_string "\nVnesi velikost matrike sosedov: ";
           k := read_int ();
           k := (!k/2)*2 + 1; (*da je k lih*)
           sosedi := praznamatrika !k !k;
@@ -212,15 +216,15 @@ let rec event_loop () =
           izrisisamomatriko !sosedi (450/(!k));
           rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
           zaprigraf ();
-          print_string "Vnesena matrika sosedov: ";
+          print_string "\nVnesena matrika sosedov: ";
           izpisimatrikobool !sosedi;
-          print_string "Vnesi pravila za žive celice: ";
+          print_string "\nVnesi pravila za žive celice: ";
           let pravilazivi = dodajkseznamu [] in
-          print_string "Vnesena pravila za žive celice: ";
+          print_string "\nVnesena pravila za žive celice: ";
           izpisilistint pravilazivi;
-          print_string "Vnesi pravila za mrtve celice: ";
+          print_string "\nVnesi pravila za mrtve celice: ";
           let pravilamrtvi = dodajkseznamu [] in
-          print_string "Vnesena pravila za mrtve celice: ";
+          print_string "\nVnesena pravila za mrtve celice: ";
           izpisilistint pravilamrtvi;
           pravila := (pravilazivi, pravilamrtvi);
           naredi_graf !nekamatrika;

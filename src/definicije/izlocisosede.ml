@@ -1,3 +1,4 @@
+(*NI VEČ V UPORABI!!!*)
 (* tu not bodo funkcije, ki nam iz podane matrike (ne vem še kakšna bo) izločijo sosede v obliki kot sem jo določil 
 treba bo prvo določiti meje sistema ali pač da je neskončen in da se bo torej dodajalo stvari
 

@@ -16,12 +16,15 @@ let rec randommatrika m n =
 let (^^^) x y = x ^ " " ^ y
 
 let izpisimatrikobool matrika =
+  print_string "[|\n";
   Array.iter (fun vrstica ->
-    print_string ((Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^ "\n")
-  ) matrika
+    print_string ("[|" ^ (Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^"|] \n")
+  ) matrika;
+  print_string "|]\n"
 
 let izpisilistint listint = (*želim da izpiše list, ne pa array*)
-  List.iter (fun x -> print_int x; print_string " ") listint
+  List.iter (fun x -> print_int x; print_string " :: ") listint;
+  print_string "[]";
 
 let rec notri element mnozica=
   match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil efficiently, hopefully ima ocaml že implementirano,
