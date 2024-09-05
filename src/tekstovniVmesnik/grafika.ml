@@ -171,6 +171,7 @@ let rec dodajkseznamu seznam =
 
 
 let _ =
+  let stkorakov = read_int () in
   let k =  ref zacetnik in
   let sosedi = ref zacetnisosedi in
   let pravila = ref zacetnapravila in
@@ -194,7 +195,7 @@ let rec event_loop () =
           |0 -> ()
           |n -> korakmatrike nekamatrika !sosedi !pravila; veckorakov (n-1)
           in
-          veckorakov 10;
+          veckorakov stkorakov;
           
           korakmatrike nekamatrika !sosedi !pravila;
           narisimatriko nekamatrika;
