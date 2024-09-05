@@ -175,7 +175,7 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
       begin
         for i = 0 to Array.length matrika - 1 do
           for j = 0 to Array.length matrika.(0) - 1 do
-            prvamatrika.(i).(j) <- false
+            matrika.(i).(j) <- false
           done
         done;
         set_color white;
@@ -188,7 +188,7 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
       begin
         for i = 0 to Array.length matrika - 1 do
           for j = 0 to Array.length matrika.(0) - 1 do
-            prvamatrika.(i).(j) <- true
+            matrika.(i).(j) <- true
           done
         done;
         fill_rect 0 200 ((Array.length matrika) * stranica - 1) ((Array.length matrika.(0)) * stranica - 1);
