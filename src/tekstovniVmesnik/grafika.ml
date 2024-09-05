@@ -7,8 +7,8 @@ open Izlocisosede
 (*open Brr*)
 
 (*nigga pretepel te bom če ne boš commital*)
-(*let praznamatrika m n =
-  Array.make m (Array.make n false) *)
+let praznamatrika m n =
+  Array.make m (Array.make n false)
 
 (*let polnamatrika m n =
   Array.make m (Array.make n true)*)
@@ -44,15 +44,16 @@ type gumb = {
   label: string}
 
 (*gumbi na zacetnem*)
-let gumbnaprej = {x = 20; y = 75; width = 100; height = 50; label = "Naprej"}
-let gumbnastavi = {x = 170; y = 75; width = 100; height = 50; label = "Nastavi"}
-let gumbizhod = {x = 320; y = 75; width = 100; height = 50; label = "Izhod"}
+let gumbnaprej = {x = 25; y = 25; width = 100; height = 50; label = "Naprej"}
+let gumbnastavi = {x = 150; y = 25; width = 100; height = 50; label = "Nastavi"}
+let gumbsosedska = {x = 25; y = 125; width = 100; height = 50; label = "Sosedje"}
+let gumbizhod = {x = 150; y = 125; width = 100; height = 50; label = "Izhod"}
 
 
 (*gumbi na nastavi*)
-let gumbprazna = {x = 20; y = 75; width = 100; height = 50; label = "Prazna"}
-let gumbpolna = {x = 170; y = 75; width = 100; height = 50; label = "Polna"}
-let gumbkonc = {x = 320; y = 75; width = 100; height = 50; label = "Koncano"}
+let gumbprazna = {x = 25; y = 25; width = 100; height = 50; label = "Prazna"}
+let gumbpolna = {x = 150; y = 25; width = 100; height = 50; label = "Polna"}
+let gumbkonc = {x = 25; y = 125; width = 100; height = 50; label = "Koncano"}
 
 
 
@@ -102,8 +103,8 @@ let spremeniprvomatriko prvamatrika drugamatrika =
     done
   done
 
-let korakmatrike matrika =
-  spremeniprvomatriko matrika (naredikorak (naredimatrikovsot matrika zacetnisosedi) zacetnapravila)
+let korakmatrike matrika sosedi pravila =
+  spremeniprvomatriko matrika (naredikorak (naredimatrikovsot matrika zacetnisosedi) pravila)
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
@@ -158,7 +159,10 @@ else
     rocnasprememba matrika
   end
   
-
+let rec dodajkseznamu seznam =
+  let x = read_int () in
+  if x = -1 then seznam
+  else dodajkseznamu (x::seznam)
 
 
 
@@ -167,6 +171,9 @@ else
 
 
 let _ =
+  let k =  ref zacetnik in
+  let sosedi = ref zacetnisosedi in
+  let pravila = ref zacetnapravila in
   let visina = read_int () in
   let sirina = read_int () in
   let stranica = min (1024/(sirina)) (450/(visina)) in
@@ -183,7 +190,7 @@ let rec event_loop () =
     begin
       if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
-          korakmatrike nekamatrika;
+          korakmatrike nekamatrika sosedi pravila;
           narisimatriko nekamatrika;
           event_loop ()
         end
@@ -193,6 +200,23 @@ let rec event_loop () =
           izrisisamomatriko nekamatrika stranica;
           rocnasprememba nekamatrika;
           Graphics.clear_graph();
+          narisimatriko nekamatrika;
+          event_loop ()
+        end
+      else if is_inside status.mouse_x status.mouse_y gumbsosedska then
+        begin
+          zaprigraf ();
+          k := read_int ();
+          k := (k/2)*2 + 1; (*da je k lih*)
+          sosedi := praznamatrika !k !k;
+          naredi_graf !sosedi;
+          izrisisamomatriko !sosedi (450/(!k));
+          rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
+          zaprigraf ();
+          let pravilazivi = dodajkseznamu [] in
+          let pravilamrtvi = dodajkseznamu [] in
+          pravila := (pravilazivi, pravilamrtvi);
+          naredi_graf nekamatrika;
           narisimatriko nekamatrika;
           event_loop ()
         end
