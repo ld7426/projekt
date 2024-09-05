@@ -7,7 +7,6 @@ open Izlocisosede
 (*open Brr*)
 
 
-(*nigga refreshaj se*)
 (*let praznamatrika m n =
   Array.make m (Array.make n false) *)
 
@@ -125,7 +124,7 @@ let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in 
 pomoznanarisiseznam seznam 0 0 stranica;
-naredi_gumb 100 75 100 50 "Naprej"; naredi_gumb 250 75 100 50 "Nastavi"; naredi_gumb 400 75 100 50 "Izhod";
+naredi_gumb 20 75 100 50 "Naprej"; naredi_gumb 170 75 100 50 "Nastavi"; naredi_gumb 320 75 100 50 "Izhod";
 synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
@@ -142,7 +141,7 @@ let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 (*let seznam = obrniseznam (Array.to_list matrika) in
 pomoznanarisiseznam seznam 0 0 stranica;*)
-naredi_gumb 400 75 100 50 "Koncano";
+naredi_gumb 320 75 100 50 "Koncano";
 synchronize ();
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
@@ -183,13 +182,13 @@ let rec event_loop () =
     zaprigraf ()
   else
     begin
-      if is_inside status.mouse_x status.mouse_y 100 75 100 50 then
+      if is_inside status.mouse_x status.mouse_y 20 75 100 50 then
         begin
           korakmatrike nekamatrika;
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 250 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y 170 75 100 50 then
         begin
           Graphics.clear_graph();
           let seznam = obrniseznam (Array.to_list nekamatrika) in
@@ -199,7 +198,7 @@ let rec event_loop () =
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 450 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y 320 75 100 50 then
         begin
           zaprigraf ();
         end
