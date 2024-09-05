@@ -126,7 +126,7 @@ let naredi_gumb gumbi =
   set_color green;
   fill_rect gumbi.x gumbi.y gumbi.width gumbi.height;
   set_color black;
-  moveto (x + 10) (y + (height / 2) - 5);
+  moveto (gumbi.x + 10) (gumbi.y + (gumbi.height / 2) - 5);
   draw_string gumbi.label
 
 (*preveri, če je klik v gumbu*)
