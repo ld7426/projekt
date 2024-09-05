@@ -190,9 +190,9 @@ let rec event_loop () =
     begin
       if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
-          let rec veckorakov i = function
+          let rec veckorakov = function
           |0 -> ()
-          |n -> korakmatrike nekamatrika !sosedi !pravila; veckorakov (i-1)
+          |n -> korakmatrike nekamatrika !sosedi !pravila; veckorakov (n-1)
           in
           veckorakov 10;
           
