@@ -29,10 +29,8 @@ let izpisimatrikobool matrika =
     print_string ((Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^ "\n")
   ) matrika
 
-let izpisilistint listint =
-  Array.iter (fun vrstica ->
-    print_string ((Array.fold_left (^^^) "" @@ Array.map string_of_int vrstica) ^ "\n")
-  ) listint
+let izpisilistint listint = (*želim da izpiše list, ne pa array*)
+  List.iter (fun x -> print_int x; print_string " ") listint
 
 let mapmatrix f mat =
 Array.map (fun vrstica -> Array.map f vrstica) mat

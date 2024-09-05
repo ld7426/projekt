@@ -93,7 +93,7 @@ done
 let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
 izrisisamomatriko matrika stranica;
-naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
+naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod; naredi_gumb gumbsosedska;
 synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
