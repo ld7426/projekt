@@ -190,7 +190,7 @@ let rec event_loop () =
         begin
           let rec veckorakov = function
           |0 -> ()
-          |n -> korakmatrike !nekamatrika !sosedi !pravila; veckorakov (n-1)
+          |n -> korakmatrike nekamatrika !sosedi !pravila; veckorakov (n-1)
           in
           veckorakov stkorakov;
           
