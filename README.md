@@ -12,9 +12,11 @@ TODO: Narediti customizable pravila - dodaten gumb, ki bo zaprl graf in nas vpra
 Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to sklepa, ali umre ali živi, bom pa dopustil uporabo zapletenih okolic.
 
 TODO: Spremeniti velikost celic, da so pri velikih tabelah posamezni kvadratki majhni, ker ne sme biti fiksna velikost 100 DONE
-TODO: Izboljšati posodabljanje celic, da posodabljamo res samo tiste celice, ki se spremenijo, drugače se mi zdi, da tole vzame preveč časa in zgleda glitchy
+TODO: Izboljšati posodabljanje celic, da posodabljamo res samo tiste celice, ki se spremenijo, drugače se mi zdi, da tole vzame preveč časa in zgleda glitchy DONE
 
-TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb
+TODO naredi class gumbov, s katerimi bo lažje delati, da preverim, ali sem kliknil nanje DONE
+
+TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb DONE
 
 poganjanje: dune build
 ./grafika.exe

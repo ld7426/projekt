@@ -179,7 +179,7 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
           done
         done;
         set_color white;
-        fill_rect 0 200 ((Array.length matrika) * stranica - 1) ((Array.length matrika.(0)) * stranica - 1);
+        fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
         set_color black;
         synchronize ();
         rocnasprememba matrika
@@ -191,7 +191,7 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
             matrika.(i).(j) <- true
           done
         done;
-        fill_rect 0 200 ((Array.length matrika) * stranica - 1) ((Array.length matrika.(0)) * stranica - 1);
+        fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
         synchronize ();
         rocnasprememba matrika
       end
