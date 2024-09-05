@@ -6,7 +6,8 @@
 Glavna datoteka je grafika.ml, pomožni sta pravila.ml in izlocisosede.ml. Na začetku datoteka vpraša za višino in širino, čeprav ni izpisanega stringa za to
 mogoče bi še grafiko dal posebej da bo main lepo kratek in naredil .mli datoteke za vsako stvar, idk
 
-TODO: ugotoviti, zakaj širina večja od *višine* ne dela, preveriti, če je s pravili vse v redu, da so res periodični boundary conditioni
+TODO: ugotoviti, zakaj širina večja od *višine* ne dela, preveriti, če je s pravili vse v redu, da so res periodični boundary conditioni DONE
+TODO: Ugotoviti zakaj je tako počasno???
 
 TODO: Narediti customizable pravila - dodaten gumb, ki bo zaprl graf in nas vprašal za velikost n, potem se odpre nazaj grafika in nam pokaže 2n+1 veliko tabelo, ki jo obkljukamo/odkljukamo, nato pa izberemo meje, kdaj živa umre in mrtva oživi
 Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to sklepa, ali umre ali živi, bom pa dopustil uporabo zapletenih okolic.

@@ -27,7 +27,7 @@ let naredi_graf matrika =
 let m = Array.length matrika in
 let n = Array.length matrika.(0) in
 let stranicakvadrata = min (1024/n) (450/m) in (*hočem da je maks 1024x712, da gre lepo na majhne resolucije kot je moja*)
-let sirina = n*stranicakvadrata in
+let sirina = max n*stranicakvadrata 420 in
 let visina = m*stranicakvadrata + 200 in
 let zacetnistring = " "^(string_of_int sirina) ^ "x" ^ (string_of_int visina) in
 Graphics.open_graph zacetnistring;
@@ -47,6 +47,7 @@ type gumb = {
 let gumbnaprej = {x = 20; y = 75; width = 100; height = 50; label = "Naprej"}
 let gumbnastavi = {x = 170; y = 75; width = 100; height = 50; label = "Nastavi"}
 let gumbizhod = {x = 320; y = 75; width = 100; height = 50; label = "Izhod"}
+
 
 (*gumbi na nastavi*)
 let gumbprazna = {x = 20; y = 75; width = 100; height = 50; label = "Prazna"}
@@ -75,7 +76,7 @@ let spremeni_matriko matrika m n =
 let izrisisamomatriko matrika stranica=
 for i = 0 to Array.length matrika.(0) - 1 do
   for j = 0 to Array.length matrika - 1 do
-    let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
+    let barva = point_color (i * stranica+1) (j * stranica + 200+1) in (*ali je tale point_color ful počasen? *)
     let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
     if barva = white then 
       match matrika.(Array.length matrika - j -1).(i) with
