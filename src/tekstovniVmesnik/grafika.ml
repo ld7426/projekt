@@ -50,6 +50,7 @@ else match vrstica with
 
 
 *)
+(*
 let rec narisigrafpovrstici vrstica i j stranica = 
   let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
   let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
@@ -81,7 +82,7 @@ let rec narisigrafpovrstici vrstica i j stranica =
         set_color black; 
         narisigrafpovrstici tail (i + 1) j stranica
     | _ -> ()
-
+*)
 
 
 (*let rec narisigrafpovrstici vrstica i j stranica= (*tukaj je pomembno, da je vrstica list in ne array!!!*)
@@ -92,7 +93,7 @@ match vrstica with
 *)
 
 
-
+(*
 let rec obrniseznam seznam =(*hkrati spremeni elemente iz Arraya v list*)
 match seznam with
 | head :: tail -> (obrniseznam tail) @ [Array.to_list head]
@@ -102,7 +103,7 @@ let rec pomoznanarisiseznam seznam i j stranica= (*Sprejme matriko v obliki list
 match seznam with
 | head :: tail -> narisigrafpovrstici head i j stranica; pomoznanarisiseznam tail i (j+1) stranica
 | [] -> ()
-
+*)
 
 (*definicije gumbov*)
 type gumb = {
@@ -143,8 +144,22 @@ let spremeni_matriko matrika m n =
 
 let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-let seznam = obrniseznam (Array.to_list matrika) in 
-pomoznanarisiseznam seznam 0 0 stranica;
+(*let seznam = obrniseznam (Array.to_list matrika) in *)
+(*pomoznanarisiseznam seznam 0 0 stranica;*)
+for i = 0 to Array.length matrika - 1 do
+  for j = 0 to Array.length matrika.(0) - 1 do
+    let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
+    let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
+    if barva = white then 
+      match matrika.(i).(j) with
+      |true -> fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
+      |false -> ()
+    else 
+      match matrika.(i).(j) with
+      |true -> ()
+      |false -> set_color white; fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; set_color black
+  done
+done;
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
 synchronize ()
 
