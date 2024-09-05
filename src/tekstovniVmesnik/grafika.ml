@@ -258,8 +258,20 @@ let rec event_loop () =
       else if is_inside status.mouse_x status.mouse_y gumbnastavi then
         begin
           Graphics.clear_graph();
-          let seznam = obrniseznam (Array.to_list nekamatrika) in
-          pomoznanarisiseznam seznam 0 0 stranica;
+          for i = 0 to Array.length matrika - 1 do
+            for j = 0 to Array.length matrika.(0) - 1 do
+              let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
+              let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
+              if barva = white then 
+                match matrika.(i).(j) with
+                |true -> fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
+                |false -> ()
+              else 
+                match matrika.(i).(j) with
+                |true -> ()
+                |false -> set_color white; fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; set_color black
+            done
+          done;
           rocnasprememba nekamatrika;
           Graphics.clear_graph();
           narisimatriko nekamatrika;
