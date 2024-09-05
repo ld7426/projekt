@@ -170,6 +170,7 @@ let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status
 if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak to mi je boljše, da lahko kjerkoli spodaj kliknem, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
+  begin
   if is_inside status.mouse_x status.mouse_y gumbprazna then 
     for i = 0 to Array.length matrika - 1 do
       for j = 0 to Array.length matrika.(0) - 1 do
@@ -181,7 +182,9 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
     set_color black;
     synchronize ();
     rocnasprememba matrika
-  else if is_inside status.mouse_x status.mouse_y gumbpolna then 
+  else 
+    begin
+    if is_inside status.mouse_x status.mouse_y gumbpolna then 
     for i = 0 to Array.length matrika - 1 do
       for j = 0 to Array.length matrika.(0) - 1 do
         prvamatrika.(i).(j) <- true
@@ -190,8 +193,13 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
     fill_rect 0 200 ((Array.length matrika)*stranica-1) ((Array.length matrika.(0))*stranica-1);
     synchronize ();
     rocnasprememba matrika
-  else if is_inside status.mouse_x status.mouse_y gumbkonc then ()
-  else rocnasprememba matrika
+    else 
+      begin
+      if is_inside status.mouse_x status.mouse_y gumbkonc then ()
+      else rocnasprememba matrika
+      end
+    end
+  end
 else 
   begin
     spremeni_matriko matrika (Array.length matrika - ym -1) xm;
