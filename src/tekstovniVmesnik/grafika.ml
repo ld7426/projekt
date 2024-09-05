@@ -104,17 +104,34 @@ match seznam with
 | [] -> ()
 
 
+(*definicije gumbov*)
+type gumb = {
+  x: int; 
+  y: int; 
+  width: int; 
+  height: int; 
+  label: string}
 
-let naredi_gumb x y width height label =
+
+let gumbnaprej = {x = 20; y = 75; width = 100; height = 50; label = "Naprej"}
+let gumbnastavi = {x = 170; y = 75; width = 100; height = 50; label = "Nastavi"}
+let gumbizhod = {x = 320; y = 75; width = 100; height = 50; label = "Izhod"}
+let gumbkonc = {x = 320; y = 75; width = 100; height = 50; label = "Koncano"}
+
+
+
+(*naredi gumb z danimi koordinatami in napisom*)
+
+let naredi_gumb gumbi =
   set_color green;
-  fill_rect x y width height;
+  fill_rect gumbi.x gumbi.y gumbi.width gumbi.height;
   set_color black;
   moveto (x + 10) (y + (height / 2) - 5);
-  draw_string label
+  draw_string gumbi.label
 
 (*preveri, če je klik v gumbu*)
-let is_inside x y bx by bwidth bheight =
-  x >= bx && x <= bx + bwidth && y >= by && y <= by + bheight
+let is_inside x y gumbi=
+  x >= gumbi.x && x <= gumbi.x + gumbi.width && y >= gumbi.y && y <= gumbi.y + gumbi.height
 
 (* obrni element na poziciji m n*)
 let spremeni_matriko matrika m n =
@@ -124,7 +141,7 @@ let narisimatriko matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 let seznam = obrniseznam (Array.to_list matrika) in 
 pomoznanarisiseznam seznam 0 0 stranica;
-naredi_gumb 20 75 100 50 "Naprej"; naredi_gumb 170 75 100 50 "Nastavi"; naredi_gumb 320 75 100 50 "Izhod";
+naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
 synchronize ()
 
 let spremeniprvomatriko prvamatrika drugamatrika = 
@@ -141,12 +158,12 @@ let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
 (*let seznam = obrniseznam (Array.to_list matrika) in
 pomoznanarisiseznam seznam 0 0 stranica;*)
-naredi_gumb 320 75 100 50 "Koncano";
+naredi_gumb gumbkonc;
 synchronize ();
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in
 let ym = (status.mouse_y-200+stranica)/(stranica)-1 in (*če bi dal samo (status-200)/stranica se npr -10/stranica zaokroži lahko na 0*)
-if ym<0 then () (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak jbg, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
+if ym<0 then () (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI ampak to mi je boljše, da lahko kjerkoli spodaj kliknem, program se pa sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
 else 
@@ -182,13 +199,13 @@ let rec event_loop () =
     zaprigraf ()
   else
     begin
-      if is_inside status.mouse_x status.mouse_y 20 75 100 50 then
+      if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
           korakmatrike nekamatrika;
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 170 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y gumbnastavi then
         begin
           Graphics.clear_graph();
           let seznam = obrniseznam (Array.to_list nekamatrika) in
@@ -198,7 +215,7 @@ let rec event_loop () =
           narisimatriko nekamatrika;
           event_loop ()
         end
-      else if is_inside status.mouse_x status.mouse_y 320 75 100 50 then
+      else if is_inside status.mouse_x status.mouse_y gumbizhod then
         begin
           zaprigraf ();
         end
