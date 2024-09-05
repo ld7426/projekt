@@ -190,6 +190,9 @@ let rec event_loop () =
     begin
       if is_inside status.mouse_x status.mouse_y gumbnaprej then
         begin
+          for i = 0 to 10 do
+            korakmatrike nekamatrika !sosedi !pravila;
+          done;
           korakmatrike nekamatrika !sosedi !pravila;
           narisimatriko nekamatrika;
           event_loop ()
