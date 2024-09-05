@@ -60,6 +60,48 @@ let naredimatrikovsot celamatrika matrikasosescine =
 
 (*hočem definirati funkcijo poenotenkorak, ki se bo obnašala kot funkcija naredikorak (naredimatrikovsot !matrika sosedi) pravila*)
 
+let intofbool = function
+| true -> 1
+| false -> 0
+
+let boolofint = function
+| 1 -> true
+| 0 -> false
+| _ -> true
+
+
+let dotprod matrikaa matrikab = (*kot dot product samo z booli*)
+  let m = Array.length matrikaa in
+  let n = Array.length matrikaa.(0) in
+  let vsota = ref 0 in
+  for i = 0 to m - 1 do
+    for j = 0 to n - 1 do
+      vsota := !vsota + (intofbool (matrikaa.(i).(j) && matrikab.(i).(j)))
+    done
+  done;
+  !vsota
+
+let init_matrix rows cols f = (*ta funkcija bi mogla bit že definirana je pisal na spletu??? POZOR, definirana tukaj in v pravila.ml *)
+  Array.init rows (fun i -> Array.init cols (fun j -> f i j))
+
+
+let mojmod x m = ((x mod m)+m) mod m (*če je negativno nam da iz druge strani m-ja, ker drugače nam da -2 mod 3 = -2, zdaj je pa 1*)
+
+let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
+  let m = Array.length celamatrika in
+  let n = Array.length celamatrika.(0) in
+  let vsota = ref 0 in
+  for i = 0 to k - 1 do
+    for j = 0 to k - 1 do
+      let x = mojmod (i + prviindeks - k / 2) m in
+      let y = mojmod (j + drugiindeks - k / 2) n in
+      let celamatrika_value = celamatrika.(x).(y) in
+      let matrikasosescine_value = matrikasosescine.(i).(j) in
+      vsota := !vsota + (intofbool (celamatrika_value && matrikasosescine_value))
+    done
+  done;
+  !vsota
+
 let poenotenkorak matrika sosedi pravila =
   let m = Array.length matrika in
   let n = Array.length matrika.(0) in
