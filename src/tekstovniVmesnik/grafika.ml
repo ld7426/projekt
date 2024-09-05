@@ -8,7 +8,7 @@ open Izlocisosede
 
 (*nigga pretepel te bom če ne boš commital*)
 let praznamatrika m n =
-  Array.make m (Array.make n false)
+  Array.make_matrix m n false
 
 (*let polnamatrika m n =
   Array.make m (Array.make n true)*)
