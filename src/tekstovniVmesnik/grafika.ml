@@ -213,10 +213,16 @@ let rec event_loop () =
           izrisisamomatriko !sosedi (450/(!k));
           rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
           zaprigraf ();
-          izpisimatrikobool nekamatrika;
+          print_string "Vnesena matrika sosedov: ";
+          izpisimatrikobool !sosedi;
           print_string "Vnesi pravila za žive celice: ";
           let pravilazivi = dodajkseznamu [] in
+          print_string "Vnesena pravila za žive celice: ";
+          izpisilistint pravilazivi;
+          print_string "Vnesi pravila za mrtve celice: ";
           let pravilamrtvi = dodajkseznamu [] in
+          print_string "Vnesena pravila za mrtve celice: ";
+          izpisilistint pravilamrtvi;
           pravila := (pravilazivi, pravilamrtvi);
           naredi_graf nekamatrika;
           narisimatriko nekamatrika;
