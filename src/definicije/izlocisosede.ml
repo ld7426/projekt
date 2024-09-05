@@ -69,10 +69,15 @@ let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
   let vsota = ref 0 in
   for i = 0 to k - 1 do
     for j = 0 to k - 1 do
-      vsota := !vsota + (intofbool (celamatrika.(mojmod (i + prviindeks - k / 2) m).(mojmod (j + drugiindeks - k / 2) n) && matrikasosescine.(i).(j)))
+      let x = mojmod (i + prviindeks - k / 2) m in
+      let y = mojmod (j + drugiindeks - k / 2) n in
+      let celamatrika_value = celamatrika.(x).(y) in
+      let matrikasosescine_value = matrikasosescine.(i).(j) in
+      vsota := !vsota + (intofbool (celamatrika_value && matrikasosescine_value))
     done
   done;
   !vsota
+
 
 
 init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))
