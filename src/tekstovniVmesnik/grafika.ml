@@ -142,10 +142,7 @@ let is_inside x y gumbi=
 let spremeni_matriko matrika m n =
   matrika.(m).(n) <- not matrika.(m).(n)
 
-let narisimatriko matrika =
-let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
-(*let seznam = obrniseznam (Array.to_list matrika) in *)
-(*pomoznanarisiseznam seznam 0 0 stranica;*)
+let izrisisamomatriko matrika stranica=
 for i = 0 to Array.length matrika - 1 do
   for j = 0 to Array.length matrika.(0) - 1 do
     let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
@@ -159,7 +156,14 @@ for i = 0 to Array.length matrika - 1 do
       |true -> ()
       |false -> set_color white; fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; set_color black
   done
-done;
+done
+
+let narisimatriko matrika =
+let stranica = min (1024/(Array.length matrika.(0))) (512/(Array.length matrika )) in
+izrisisamomatriko matrika stranica;
+(*let seznam = obrniseznam (Array.to_list matrika) in *)
+(*pomoznanarisiseznam seznam 0 0 stranica;*)
+
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod;
 synchronize ()
 
@@ -258,20 +262,7 @@ let rec event_loop () =
       else if is_inside status.mouse_x status.mouse_y gumbnastavi then
         begin
           Graphics.clear_graph();
-          for i = 0 to Array.length matrika - 1 do
-            for j = 0 to Array.length matrika.(0) - 1 do
-              let barva = point_color (i * stranica+1) (j * stranica + 200+1) in
-              let pravastranica = stranica - 1 in (*da se ne prekrivajo kvadrati, ker fill_rect actually naredi (n+1)*(n+1) kvadrat ...*)
-              if barva = white then 
-                match matrika.(i).(j) with
-                |true -> fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica
-                |false -> ()
-              else 
-                match matrika.(i).(j) with
-                |true -> ()
-                |false -> set_color white; fill_rect (i * stranica) (j * stranica + 200) pravastranica pravastranica; set_color black
-            done
-          done;
+          izrisisamomatriko nekamatrika stranica;
           rocnasprememba nekamatrika;
           Graphics.clear_graph();
           narisimatriko nekamatrika;
