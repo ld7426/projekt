@@ -93,15 +93,15 @@ izrisisamomatriko matrika stranica;
 naredi_gumb gumbnaprej; naredi_gumb gumbnastavi; naredi_gumb gumbizhod; naredi_gumb gumbsosedska;
 synchronize ()
 
-let spremeniprvomatriko prvamatrika drugamatrika = 
+(*let spremeniprvomatriko prvamatrika drugamatrika = (*to je zelo slaba funkcija za uporabo pomoje, reference so ziher velik boljše*)
   for i = 0 to Array.length prvamatrika - 1 do
     for j = 0 to Array.length prvamatrika.(0) - 1 do
       prvamatrika.(i).(j) <- drugamatrika.(i).(j)
     done
-  done
+  done*)
 
 let korakmatrike matrika sosedi pravila =
-  spremeniprvomatriko matrika (naredikorak (naredimatrikovsot matrika sosedi) pravila)
+  matrika := (naredikorak (naredimatrikovsot !matrika sosedi) pravila)
 
 let rec rocnasprememba matrika =
 let stranica = min (1024/(Array.length matrika.(0))) (450/(Array.length matrika )) in
@@ -175,9 +175,9 @@ let _ =
   let visina = read_int () in
   let sirina = read_int () in
   let stranica = min (1024/(sirina)) (450/(visina)) in
-  let nekamatrika = randommatrika visina sirina in
-  naredi_graf nekamatrika;
-  narisimatriko nekamatrika;
+  let nekamatrika = ref (randommatrika visina sirina) in
+  naredi_graf !nekamatrika;
+  narisimatriko !nekamatrika;
   
 (*Graphics.set_font "./Trueno-75PE.otf"; ni mi ratalo uporabiti fonta, ki bi supportal čšž*)
 let rec event_loop () =
@@ -190,21 +190,21 @@ let rec event_loop () =
         begin
           let rec veckorakov = function
           |0 -> ()
-          |n -> korakmatrike nekamatrika !sosedi !pravila; veckorakov (n-1)
+          |n -> korakmatrike !nekamatrika !sosedi !pravila; veckorakov (n-1)
           in
           veckorakov stkorakov;
           
           korakmatrike nekamatrika !sosedi !pravila;
-          narisimatriko nekamatrika;
+          narisimatriko !nekamatrika;
           event_loop ()
         end
       else if is_inside status.mouse_x status.mouse_y gumbnastavi then
         begin
           Graphics.clear_graph();
-          izrisisamomatriko nekamatrika stranica;
-          rocnasprememba nekamatrika;
+          izrisisamomatriko !nekamatrika stranica;
+          rocnasprememba !nekamatrika;
           Graphics.clear_graph();
-          narisimatriko nekamatrika;
+          narisimatriko !nekamatrika;
           event_loop ()
         end
       else if is_inside status.mouse_x status.mouse_y gumbsosedska then
@@ -228,8 +228,8 @@ let rec event_loop () =
           print_string "Vnesena pravila za mrtve celice: ";
           izpisilistint pravilamrtvi;
           pravila := (pravilazivi, pravilamrtvi);
-          naredi_graf nekamatrika;
-          narisimatriko nekamatrika;
+          naredi_graf !nekamatrika;
+          narisimatriko !nekamatrika;
           event_loop ()
         end
       else if is_inside status.mouse_x status.mouse_y gumbizhod then
@@ -238,7 +238,7 @@ let rec event_loop () =
         end
       else
         begin
-          narisimatriko nekamatrika;
+          narisimatriko !nekamatrika;
           event_loop ()
         end
     end

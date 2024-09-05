@@ -7,10 +7,10 @@ Glavna datoteka je grafika.ml, pomožni sta pravila.ml in izlocisosede.ml. Na za
 mogoče bi še grafiko dal posebej da bo main lepo kratek in naredil .mli datoteke za vsako stvar, idk
 
 TODO: ugotoviti, zakaj širina večja od *višine* ne dela, preveriti, če je s pravili vse v redu, da so res periodični boundary conditioni DONE
-TODO: Ugotoviti zakaj je tako počasno???
+
 
 TODO: Narediti customizable pravila - dodaten gumb, ki bo zaprl graf in nas vprašal za velikost n, potem se odpre nazaj grafika in nam pokaže 2n+1 veliko tabelo, ki jo obkljukamo/odkljukamo, nato pa izberemo meje, kdaj živa umre in mrtva oživi
-Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to sklepa, ali umre ali živi, bom pa dopustil uporabo zapletenih okolic.
+Pravilo bo simple, da se samo prešteje število živih sosedov in glede na to sklepa, ali umre ali živi, bom pa dopustil uporabo zapletenih okolic. DONE
 
 TODO: Spremeniti velikost celic, da so pri velikih tabelah posamezni kvadratki majhni, ker ne sme biti fiksna velikost 100 DONE
 TODO: Izboljšati posodabljanje celic, da posodabljamo res samo tiste celice, ki se spremenijo, drugače se mi zdi, da tole vzame preveč časa in zgleda glitchy DONE
@@ -18,6 +18,9 @@ TODO: Izboljšati posodabljanje celic, da posodabljamo res samo tiste celice, ki
 TODO naredi class gumbov, s katerimi bo lažje delati, da preverim, ali sem kliknil nanje DONE
 
 TODO: dodaj možnost, da se matrika nastavi na same mrtve/žive, to je izi en gumb DONE
+
+TODO: Ugotoviti zakaj je tako počasno??? Risanje sem zej kar pohitril, še posebej za večinoma mrtve matrike, zej pa lahko probam pohitriti še korak
+TODO: Naredi bolj user friendly, dodaj izpise, označi malo 
 
 poganjanje: dune build
 ./grafika.exe
