@@ -20,7 +20,7 @@ let izpisimatrikobool matrika =
   Array.iter (fun vrstica ->
     print_string ("[|" ^ (Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^"|] \n")
   ) matrika;
-  print_string "|]\n"
+  print_string "|]\n";
 
 let izpisilistint listint = (*želim da izpiše list, ne pa array*)
   List.iter (fun x -> print_int x; print_string " :: ") listint;
