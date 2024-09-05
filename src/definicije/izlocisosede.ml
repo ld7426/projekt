@@ -72,7 +72,7 @@ for i = 0 to k-1 do
     vsota := !vsota + (intofbool (celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n) && matrikasosescine.(i).(j)))
   done
 done;
-vsota
+!vsota
 
 init_matrix k k (fun i j -> celamatrika.(mojmod (i + prviindeks -k/2) m).(mojmod (j + drugiindeks -k/2) n))
 
