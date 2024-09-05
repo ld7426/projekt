@@ -213,7 +213,7 @@ let rec event_loop () =
           izrisisamomatriko !sosedi (450/(!k));
           rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
           zaprigraf ();
-          izpisimatrikobool !sosedi;
+          izpisimatrikobool nekamatrika;
           print_string "Vnesi pravila za žive celice: ";
           let pravilazivi = dodajkseznamu [] in
           let pravilamrtvi = dodajkseznamu [] in
