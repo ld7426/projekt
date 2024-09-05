@@ -171,45 +171,46 @@ if ym<0 then (*izhod iz spremembe, ker je klik izven polj -> ni usklajeno z GUI 
   (*if is_inside status.mouse_x status.mouse_y 400 75 100 50 then ()
   else rocnasprememba matrika*)
   begin
-  if is_inside status.mouse_x status.mouse_y gumbprazna then 
-    for i = 0 to Array.length matrika - 1 do
-      for j = 0 to Array.length matrika.(0) - 1 do
-        prvamatrika.(i).(j) <- false
-      done
-    done;
-    set_color white;
-    fill_rect 0 200 ((Array.length matrika)*stranica-1) ((Array.length matrika.(0))*stranica-1);
-    set_color black;
-    synchronize ();
-    rocnasprememba matrika
-  else 
-    begin
-    if is_inside status.mouse_x status.mouse_y gumbpolna then 
-    for i = 0 to Array.length matrika - 1 do
-      for j = 0 to Array.length matrika.(0) - 1 do
-        prvamatrika.(i).(j) <- true
-      done
-    done;
-    fill_rect 0 200 ((Array.length matrika)*stranica-1) ((Array.length matrika.(0))*stranica-1);
-    synchronize ();
-    rocnasprememba matrika
-    else 
+    if is_inside status.mouse_x status.mouse_y gumbprazna then
       begin
-      if is_inside status.mouse_x status.mouse_y gumbkonc then ()
-      else rocnasprememba matrika
+        for i = 0 to Array.length matrika - 1 do
+          for j = 0 to Array.length matrika.(0) - 1 do
+            prvamatrika.(i).(j) <- false
+          done
+        done;
+        set_color white;
+        fill_rect 0 200 ((Array.length matrika) * stranica - 1) ((Array.length matrika.(0)) * stranica - 1);
+        set_color black;
+        synchronize ();
+        rocnasprememba matrika
       end
-    end
+    else if is_inside status.mouse_x status.mouse_y gumbpolna then
+      begin
+        for i = 0 to Array.length matrika - 1 do
+          for j = 0 to Array.length matrika.(0) - 1 do
+            prvamatrika.(i).(j) <- true
+          done
+        done;
+        fill_rect 0 200 ((Array.length matrika) * stranica - 1) ((Array.length matrika.(0)) * stranica - 1);
+        synchronize ();
+        rocnasprememba matrika
+      end
+    else if is_inside status.mouse_x status.mouse_y gumbkonc then
+      ()
+    else
+      rocnasprememba matrika
   end
-else 
+else
   begin
-    spremeni_matriko matrika (Array.length matrika - ym -1) xm;
-    if matrika.(Array.length matrika - ym -1).(xm) then set_color black
+    spremeni_matriko matrika (Array.length matrika - ym - 1) xm;
+    if matrika.(Array.length matrika - ym - 1).(xm) then set_color black
     else set_color white;
-    fill_rect (xm*stranica) (ym*stranica + 200) (stranica-1) (stranica-1);
+    fill_rect (xm * stranica) (ym * stranica + 200) (stranica - 1) (stranica - 1);
     set_color black;
     synchronize ();
     rocnasprememba matrika
   end
+  
 
 
 
