@@ -1,98 +1,89 @@
 (* Datoteka s pravili za spremembo stanj *)
+(*Imamo matriko sosedov, ki nam definira, katere sosede vzamemo, nato preštejemo koliko od teh je živih in imamo
+shranjeno kaj se zgodi s celico glede na to, kakšno stanje je imela trenutno in koliko sosedov je živih*)
 
 
+(*########################################################################################################*)
+(*Pomožne funkcije brez posebne teorije, dost self-explanatory*)
+let rec randomarray n =
+  match n with
+  | 0 -> [| |]
+  | k -> Array.append [|Random.bool()|] (randomarray (k-1))
+  
+let rec randommatrika m n =
+  match m with 
+  | 0 -> [| |]
+  | k -> Array.append [|randomarray n|] (randommatrika (k-1) n)
 
 
-(* Funkcija spremeni_stanje sprejme tuple sosedov predvidene dolžine (bool * bool * bool ... * bool) in trenutno stanje : bool, ter vrne končno stanje : bool 
-trenutno nastavljeno na obliko
-	  |1| |2|
-	|3|4|x|5|6|
-	  |7| |8| |9|
+let init_matrix rows cols f = (* ta funkcija bi mogla bit že vključena v Array, pa ni... *)
+Array.init rows (fun i -> Array.init cols (fun j -> f i j))
 
-kjer so po vrsti v sosedituple kot so napisane številke, x je pa trenutna. Tej okolici bomo zdaj pravili dinozaver, saj nas lahko z veliko domišljije spominja na stegozavra https://en.wikipedia.org/wiki/Stegosaurus
+let intofbool = function
+| true -> 1
+| false -> 0
 
-kakšne zahteve želimo:
--> da če ima vse okoli sebe prazno rata tudi sam prazen (ne glede na osnovno stanje)
--> ob malem številu sosedov v večini situacij umre
--> ob srednjem številu sosedov v večini situacij oživi
--> ob prevelikem številu sosedov umre
+let mojmod x m = ((x mod m)+m) mod m (*če je negativno nam da iz druge strani m-ja, ker drugače nam da -2 mod 3 = -2, zdaj je pa 1*)
 
+let (^^^) x y = x ^ " " ^ y
 
-recimo da damo preprosto tako:
--> če je mrtev in ima 3 ali manj živih sosedov potem ostane mrtev
--> če je živ in ima 2 ali manj živih sosedov potem umre
--> če je mrtev in ima med 3 in 9 sosedov potem oživi
--> če je živ in ima med 4 in 8 živih sosedov potem ostane živ
--> Živ in 9 sosedov potem umre
+let izpisimatrikobool matrika =
+  print_string "[|\n";
+  Array.iter (fun vrstica ->
+    print_string ("[|" ^ (Array.fold_left (^^^) "" @@ Array.map string_of_bool vrstica) ^"|] \n")
+  ) matrika;
+  print_string "|]\n"
 
-*)
-let rec sestejlist seznam =
-match seznam with
-| true ::tail -> 1 + (sestejlist tail)
-| false :: tail -> sestejlist tail
-|[] -> 0
+let izpisilistint listint = (*želim da izpiše list, ne pa array*)
+  List.iter (fun x -> print_int x; print_string " :: ") listint;
+  print_string "[]"
 
-
-let spremeni_stanje sosedilist trenutno_stanje =
-let zivisosedi = sestejlist sosedilist in
-if zivisosedi <=4 && (not trenutno_stanje) then false
-else if zivisosedi <=3 && trenutno_stanje then false
-else if not trenutno_stanje then true
-else if zivisosedi<=8 then true
-else false
-
-let spremeni_stanje_zivi zivisosedi trenutno_stanje =
-if zivisosedi <=3 && (not trenutno_stanje) then false
-else if zivisosedi <=1 && trenutno_stanje then false
-else if not trenutno_stanje then true
-else if zivisosedi<=8 then true
-else false
+(*let rec notri element mnozica=
+(*zamenjana funkcija s funkcijo List.mem, ki ima isto funkcionalnost, ampak je verjetno boljše napisana, ker je njihova*)
+  match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil efficiently, hopefully ima ocaml že implementirano,
+  da je    true || (KARKOLI) = true    kar pa malo dvomim...    ..., načeloma bodo množice relativno majhne, tako da to ne bo vplivalo preveč na performance*)
+  |h::t -> (h==element) || (notri element t)
+  |[] -> false*)
 
 
-let matrikasestejizloceni izloci matrika =
-let m = Array.length matrika in
-let n = Array.length matrika.(0) in
-Array.init m (fun i -> Array.init n (fun j -> sestejlist @@ izloci matrika m n i j))
-
-let kopirajmatriko matrika = (*za sprobavat sem rabil to funkcijo, da nisem spreminjal matrike*)
-Array.map Array.copy matrika
-
-let korak izloci matrika = (*glavna funkcija ki jo kličemo skupaj s funkcijo izlocisosede iz izlocisosede.ml, primer: let trenutna = korak izlocisosede zacetnamatrika *)
-let m = Array.length matrika in
-let n = Array.length matrika.(0) in
-Array.init m (fun i -> Array.init n (fun j -> spremeni_stanje_zivi (sestejlist @@ izloci matrika m n i j) matrika.(i).(j) ))
-
-let zacetnamatrika = [|[|false; true; true; true; true; true; true|]; (* za večje primere si je najbolje generirati naključno matriko z ukazom: let matrika = randommatrika m n, ki je v izlocisosede.ml*)
-    [|false; true; true; true; true; true; true|];
-    [|true; true; true; true; true; true; true|];
-    [|false; false; true; true; true; false; true|];
-    [|false; false; false; true; false; true; false|]|]
-    
-    
-(*želim funkcijo, ki vzame matriko dobljeno z izločeno in na podlagi pravila določi ali bo nov element živ ali ne, mogoče modificiram matriko s številom sosedov, da vključuje podatek, ali je kvaddratek sam živ ali mrtev*)
-(*ideja za pravila je npr urejen seznam mej med tem, ali so živi ali mrtvi*)
-(*druga ideja je samo seznam vseh vrednosti, za katere ostane živ*)
-let rec notri element mnozica=
-match mnozica with (*sem se hotel izogniti temu, da preverja do konca ampak ne vem kako bi to naredil...*)
-|h::t -> (h==element) || (notri element t)
-|[] -> false
-
-let pravilo (trenutnostanje,stsosed) (pravilazivi, pravilamrtvi)=
-match trenutnostanje with
-|true -> notri stsosed pravilazivi
-|false -> notri stsosed pravilamrtvi
-
-let init_matrix rows cols f = (* POZOR!!!funkcija definirana tukaj in v izlocisosede *)
-  Array.init rows (fun i -> Array.init cols (fun j -> f i j))
+(*########################################################################################################*)
+(*Glavne funkcije, ki definirajo pravilo*)
+let pravilo (trenutnostanje,stsosed) (pravilazivi, pravilamrtvi) = 
+(*iz trenutnega stanja in pravil, ki se ločijo glede na trenutno stanje določi ali bo v naslednji iteraciji živ*)
+  match trenutnostanje with
+  |true -> List.mem stsosed pravilazivi
+  |false -> List.mem stsosed pravilamrtvi
 
 
-let naredikorak matrikasosedov (pravilazivi, pravilamrtvi)=
-let m = Array.length matrikasosedov in
-let n = Array.length matrikasosedov.(0) in
-init_matrix m n (fun i j -> pravilo matrikasosedov.(i).(j) (pravilazivi, pravilamrtvi))
-(*funkcija init_matrix je iz izlocisosede, a bo to problem ko bom poganjal?*)
+let izlocivsotososedov celamatrika matrikasosescine k prviindeks drugiindeks =
+  (*funkcija prešteje število sosedov celice na mestu prviindeks drugiindeks*)
+  (*Načeloma ima array.(i).(j) O(1) čas, tako da ima ta funkcija zahtevnost enako O(k^2), ampak k in število sosedov, ki jih rabimo gledati sta dosti blizu*)
+  let m = Array.length celamatrika in
+  let n = Array.length celamatrika.(0) in
+  let vsota = ref 0 in
+  for i = 0 to k - 1 do
+    for j = 0 to k - 1 do
+      let x = mojmod (i + prviindeks - k / 2) m in
+      let y = mojmod (j + drugiindeks - k / 2) n in
+      let celamatrika_value = celamatrika.(x).(y) in
+      let matrikasosescine_value = matrikasosescine.(i).(j) in
+      vsota := !vsota + (intofbool (celamatrika_value && matrikasosescine_value))
+    done
+  done;
+  !vsota
 
-(*conway*)
+let poenotenkorak matrika sosedi pravila =
+  (*vrne matriko po eni iteraciji, naredi novo matriko, kar je verjetno slabo za spomin???*)
+  (*verjetno bi lahko to izboljšal, če bi v matriko vključil še prejšnje vrednosti, sam bi bilo pa veliko dela in matrike bi bile 3D potem*)
+  (*Časovna zahtevnost tega je O(m*n)*O(izlocivsotososedov) = O(m*n*k^2), če rečemo da so pravila konstantna*)
+  let m = Array.length matrika in
+  let n = Array.length matrika.(0) in
+  let k = Array.length sosedi in  
+  init_matrix m n (fun i j -> pravilo (matrika.(i).(j), (izlocivsotososedov matrika sosedi k i j)) pravila)
+
+
+(*########################################################################################################*)
+(*začetna conway pravila*)
 let zacetnapravila = ([2;3], [3]) (*Conway*)
 let zacetnik = 3
-let zacetnisosedi = [|[|false; true; false|]; [|true; false; true|]; [|false; true; false|]|]
+let zacetnisosedi = [|[|true; true; true|]; [|true; false; true|]; [|true; true; true|]|]
