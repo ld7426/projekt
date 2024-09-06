@@ -26,28 +26,32 @@ Sledi vnos želene velikosti tabele. Tabelo je smiselno narediti manjšo od `200
 
 Ko se projekt inicializira je začetna postavitev nastavljena naključno. Črna barva predstavlja žive celice in bela barva mrtve. Na dnu zaslona so štirje gumbi:
 
-## `naprej`
+## `Naprej`
 Ob kliku na gumb se vsaka celica na vrhu spremeni po določenem pravilu. Osnovna pravila so enaka kot pri Conwayevi [Igri Življenja](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life). V kolikor uporabnik pravila spremeni se seveda upošteva nastavljena pravila. Če je izbrano število korakov med zaporednima prikazoma večje od $1$, tedaj se ne prikaže vsak korak evolucije.
 
-## `nastavi`
-Gumb nas odpelje na novo stran, kjer lahko s klikom na celice spremenimo njihovo trenutno stanje. Če je celica, na katero smo kliknili, bila živa, je sedaj mrtva in obratno. Za priročnost sta dodana še gumba `Prazna` in `Polna`, ki nastavita vse celice na mrtve ali pa vse celice na žive. Ko smo končali z nastavitvijo se s klikom na gumb `Koncano` vrnemo na prejšnjo stran.
+## `Nastavi`
+Gumb nas odpelje na novo stran, kjer lahko s klikom na celice spremenimo njihovo trenutno stanje. Če je bila celica, na katero smo kliknili, živa, je sedaj mrtva in obratno. Za priročnost sta dodana še gumba `Prazna` in `Polna`, ki nastavita vse celice na mrtve ali pa vse celice na žive. 
+
+Gumb `Presenecenje` nastavi tabelo na eno izmed preprostih a zanimivih pozicij, ki si jih je vredno pogledati in ugotoviti, zakaj so si zaslužile svoje mesto v projektu. Ogromno drugih začetnih postavitev za Conwayevo igro življenja si lahko pogledam na [povezavi](https://playgameoflife.com/lexicon).
+
+Ko smo zadovoljni s svojo umetniško stvaritvijo se s klikom na gumb `Koncano` vrnemo na prejšnjo stran.
 
 | ![nastavi.png](./slike/nastavi.png) |
 |:--:| 
 | Nastavitvena stran |
 
-## `sosedje`
+## `Sosedje`
 
 Ob kliku na ta gumb se okno zapre in nas v ukazni vrstici program vpraša za želeno velikost matrike sosedov. Vpisati je potrebno liho naravno število $2k+1$, iz katerega se nato ustvari $(2k+1)\times (2k+1)$ matrika sosedov, kjer centralni element predstavlja celico, ki jo gledamo, za sosede pa lahko definiramo celice, ki so za največ $k$ oddaljene od opazovane celice glede na [razdaljo Čebiševa](https://en.wikipedia.org/wiki/Chebyshev_distance).
 
-Nato se odpre povsem identično okno kot pri gumbu `nastavi` in z enakimi operacijami sedaj izberemo, katere celice bomo obravnavali kot sosede centralne celice. Celice označeno s črno se bodo upoštevale kot sosednje celice, neoznačene celice pa ne. Večinoma se za sosede obravnava neko simetrično okolico okoli centralnega elementa, ni pa to nujno. Centralni element je lahko tudi sosed samemu sebi, če to tako označimo.
+Nato se odpre povsem identično okno kot pri gumbu `Nastavi` in z enakimi operacijami sedaj izberemo, katere celice bomo obravnavali kot sosede centralne celice. Celice označeno s črno se bodo upoštevale kot sosednje celice, neoznačene celice pa ne. Večinoma se za sosede obravnava neko simetrično okolico okoli centralnega elementa, ni pa to nujno. Centralni element je lahko tudi sosed samemu sebi, če to tako označimo.
 
 | ![sosedje.png](./slike/sosedje.png) |
 |:--:| 
 | Nastavitev matrike sosedov |
 
 
-Ko smo zadovolnji z izbiro kliknemo gumb `konec` in okno se zapre in v ukazni vrstici nam izpiše izbrano sosedsko matriko. Nato nas vpraša po pravilih za žive celice.
+Ko smo zadovolnji z izbiro kliknemo gumb `Koncano` in okno se zapre in v ukazni vrstici nam izpiše izbrano sosedsko matriko. Nato nas vpraša po pravilih za žive celice.
 
 Implementirana pravila so omejena na funkcije, ki imajo za argumenta le trenutno stanje opazovane celice in število vseh živih sosedov glede na definirano sosedsko matriko.
 
@@ -61,7 +65,7 @@ Ob zadnjem vnosu števila $-1$ se nam nazaj odpre osnovno okno in lahko nadaljuj
 |:--:| 
 | Nastavitev pravil |
 
-## `izhod`
+## `Izhod`
 Okno se zapre in program se zaključi.
 
 # Razno
