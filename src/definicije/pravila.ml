@@ -121,39 +121,39 @@ let gosperglidergun matrika =
   matrika.(x).(y) <- true;
   matrika.(x).(y+1) <- true;
   matrika.(x+1).(y) <- true;
-  matrika.(x+1).(y+1) <- true; (*kvadratek na levi)*) (*želim da je vodoravno*)
-  matrika.(x+10).(y) <- true;
-  matrika.(x+10).(y+1) <- true;
-  matrika.(x+10).(y-1) <- true;
-  matrika.(x+11).(y+2) <- true;
-  matrika.(x+11).(y-2) <- true;
-  matrika.(x+12).(y+3) <- true;
-  matrika.(x+12).(y-3) <- true;
-  matrika.(x+13).(y+3) <- true;
-  matrika.(x+13).(y-3) <- true;
-  matrika.(x+14).(y) <- true;
-  matrika.(x+15).(y+2) <- true;
-  matrika.(x+15).(y-2) <- true;
-  matrika.(x+16).(y+1) <- true;
-  matrika.(x+16).(y) <- true;
-  matrika.(x+16).(y-1) <- true;
-  matrika.(x+17).(y) <- true; (*končan levosredinski del*)
-  matrika.(x+20).(y+1) <- true;
-  matrika.(x+20).(y+2) <- true;
-  matrika.(x+20).(y+3) <- true;
-  matrika.(x+21).(y+1) <- true;
-  matrika.(x+21).(y+2) <- true;
-  matrika.(x+21).(y+3) <- true;
-  matrika.(x+22).(y) <- true;
-  matrika.(x+22).(y+4) <- true;
-  matrika.(x+24).(y) <- true;
-  matrika.(x+24).(y-1) <- true;
-  matrika.(x+24).(y+4) <- true;
-  matrika.(x+24).(y+5) <- true;(*končan desnosredinski del*)
-  matrika.(x+34).(y+2) <- true;
-  matrika.(x+34).(y+3) <- true;
-  matrika.(x+35).(y+2) <- true;
-  matrika.(x+35).(y+3) <- true;(*končan kvadratek*)
+  matrika.(x+1).(y+1) <- true; (*kvadratek na levi)*) (*želim da je glider vodoraven*)
+  matrika.(x).(mojmod (y+10) n) <- true;
+  matrika.(x+1).(mojmod (y+10) n) <- true;
+  matrika.(x+2).(mojmod (y+10) n) <- true;
+  matrika.(x+3).(mojmod (y+11) n) <- true;
+  matrika.(x-1).(mojmod (y+11) n) <- true;
+  matrika.(x-2).(mojmod (y+12) n) <- true;
+  matrika.(x+4).(mojmod (y+12) n) <- true;
+  matrika.(x-2).(mojmod (y+13) n) <- true;
+  matrika.(x+4).(mojmod (y+13) n) <- true;
+  matrika.(x+1).(mojmod (y+14) n) <- true;
+  matrika.(x-1).(mojmod (y+15) n) <- true;
+  matrika.(x+3).(mojmod (y+15) n) <- true;
+  matrika.(x).(mojmod (y+16) n) <- true;
+  matrika.(x+1).(mojmod (y+16) n) <- true;
+  matrika.(x+2).(mojmod (y+16) n) <- true;
+  matrika.(x+1).(mojmod (y+17) n) <- true; (*levosredinski del*)
+  matrika.(x).(mojmod (y+20) n) <- true;
+  matrika.(x-1).(mojmod (y+20) n) <- true;
+  matrika.(x-2).(mojmod (y+20) n) <- true;
+  matrika.(x).(mojmod (y+21) n) <- true;
+  matrika.(x-1).(mojmod (y+21) n) <- true;
+  matrika.(x-2).(mojmod (y+21) n) <- true;
+  matrika.(x-3).(mojmod (y+22) n) <- true;
+  matrika.(x+1).(mojmod (y+22) n) <- true;
+  matrika.(x-4).(mojmod (y+24) n) <- true;
+  matrika.(x-3).(mojmod (y+24) n) <- true;
+  matrika.(x+1).(mojmod (y+24) n) <- true;
+  matrika.(x+2).(mojmod (y+24) n) <- true;
+  matrika.(x-2).(mojmod (y+34) n) <- true;
+  matrika.(x-1).(mojmod (y+34) n) <- true;
+  matrika.(x-2).(mojmod (y+35) n) <- true;
+  matrika.(x-1).(mojmod (y+35) n) <- true;
   matrika
 
   let infinitegrowth matrika = 
