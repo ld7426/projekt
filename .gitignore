@@ -1,0 +1,27 @@
+#Standard gitignore file for OCaml projects
+# Compiled files
+*.cmi
+*.cmo
+*.cmx
+*.o
+*.cmx
+*.cmt
+*.cmti
+*.annot
+
+# Build artifacts
+_build/
+*.byte
+*.native
+
+# Dependency directories
+_opam/
+esy.lock
+esy.lock.json
+
+# Editor/IDE files
+.vscode/
+.idea/
+
+# Documentation
+doc/
