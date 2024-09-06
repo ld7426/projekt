@@ -14,9 +14,6 @@ let dejvisina = visinazaslona - 280
 
 (*########################################################################################################*)
 (*definicija inicializacije matrik*)
-let praznamatrika m n =
-  Array.make_matrix m n false
-
 let rec randomarray n =
 match n with
 | 0 -> [| |]
@@ -66,6 +63,9 @@ let gumbizhod = {x = 150; y = 125; width = 100; height = 50; label = "Izhod"}
 let gumbprazna = {x = 25; y = 25; width = 100; height = 50; label = "Prazna"}
 let gumbpolna = {x = 150; y = 25; width = 100; height = 50; label = "Polna"}
 let gumbkonc = {x = 25; y = 125; width = 100; height = 50; label = "Koncano"}
+let gumbpresenecenje = {x = 150; y = 125; width = 100; height = 50; label = "Presenecenje"}
+
+
 
 
 (*naredi gumb z danimi koordinatami in napisom*)
@@ -110,9 +110,10 @@ synchronize ()
 (*definicija ročne spremembe matrike, tale del kode je kr ogaben, ampak ima pač kar veliko case-ov*)
 (* je pa tale del precej hiter, tako da ne vem če bi ga optimiziral*)
 
-let rec rocnasprememba matrika =
+let rec rocnasprememba dejanskamatrika =
+let matrika = !dejanskamatrika in
 let stranica = min (dejsirina/(Array.length matrika.(0))) (dejvisina/(Array.length matrika )) in
-naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc;
+naredi_gumb gumbprazna; naredi_gumb gumbpolna; naredi_gumb gumbkonc; naredi_gumb gumbpresenecenje;
 synchronize ();
 let status = wait_next_event [Button_down] in
 let xm = (status.mouse_x)/(stranica) in (* program se sesuje če nekdo ročno poveča okno in klikne na desni ven :D*)
@@ -130,7 +131,7 @@ if ym<0 then
         fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
         set_color black;
         synchronize ();
-        rocnasprememba matrika
+        rocnasprememba dejanskamatrika
       end
     else if is_inside status.mouse_x status.mouse_y gumbpolna then
       begin
@@ -141,12 +142,20 @@ if ym<0 then
         done;
         fill_rect 0 200 ((Array.length matrika.(0)) * stranica - 1) ((Array.length matrika) * stranica - 1);
         synchronize ();
-        rocnasprememba matrika
+        rocnasprememba dejanskamatrika
       end
+    else if is_inside status.mouse_x status.mouse_y gumbpresenecenje then
+      begin
+        dejanskamatrika := randomizbiramatrike matrika;
+        narisimatriko !dejanskamatrika;
+        synchronize ();
+        rocnasprememba dejanskamatrika
+      end
+
     else if is_inside status.mouse_x status.mouse_y gumbkonc then
       ()
     else
-      rocnasprememba matrika
+      rocnasprememba dejanskamatrika
   end
 else
   begin
@@ -156,7 +165,7 @@ else
     fill_rect (xm * stranica) (ym * stranica + 200) (stranica - 1) (stranica - 1);
     set_color black;
     synchronize ();
-    rocnasprememba matrika
+    rocnasprememba dejanskamatrika
   end
   
 (*########################################################################################################*)
@@ -209,7 +218,7 @@ let rec event_loop () = (*glavni loop za vse stvari*)
         begin
           Graphics.clear_graph();
           izrisisamomatriko !nekamatrika stranica;
-          rocnasprememba !nekamatrika;
+          rocnasprememba nekamatrika;
           Graphics.clear_graph();
           narisimatriko !nekamatrika;
           event_loop ()
@@ -223,7 +232,7 @@ let rec event_loop () = (*glavni loop za vse stvari*)
           sosedi := praznamatrika !k !k;
           naredi_graf !sosedi;
           izrisisamomatriko !sosedi (dejvisina/(!k));
-          rocnasprememba !sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
+          rocnasprememba sosedi; (*koncana sprememba sosedov, zdaj je treba se pravila*)
           zaprigraf ();
           print_string "\nVnešena matrika sosedov: ";
           izpisimatrikobool !sosedi;

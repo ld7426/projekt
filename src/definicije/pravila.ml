@@ -5,15 +5,8 @@ shranjeno kaj se zgodi s celico glede na to, kakšno stanje je imela trenutno in
 
 (*########################################################################################################*)
 (*Pomožne funkcije brez posebne teorije, dost self-explanatory*)
-let rec randomarray n =
-  match n with
-  | 0 -> [| |]
-  | k -> Array.append [|Random.bool()|] (randomarray (k-1))
-  
-let rec randommatrika m n =
-  match m with 
-  | 0 -> [| |]
-  | k -> Array.append [|randomarray n|] (randommatrika (k-1) n)
+let praznamatrika m n =
+  Array.make_matrix m n false
 
 
 let init_matrix rows cols f = (* ta funkcija bi mogla bit že vključena v Array, pa ni... *)
@@ -87,3 +80,111 @@ let poenotenkorak matrika sosedi pravila =
 let zacetnapravila = ([2;3], [3]) (*Conway*)
 let zacetnik = 3
 let zacetnisosedi = [|[|true; true; true|]; [|true; false; true|]; [|true; true; true|]|]
+
+
+
+let glidermatrika matrika = 
+  (*naredi matriko z gliderjem*)
+  let m = Array.length matrika in
+  let n = Array.length matrika.(0) in
+  let x = m/2 in
+  let y = n/2 in
+  let matrika = praznamatrika m n in
+  matrika.(x).(y) <- true;
+  matrika.(x+1).(y) <- true;
+  matrika.(x+2).(y) <- true;
+  matrika.(x+2).(y+1) <- true;
+  matrika.(x+1).(y+2) <- true;
+  matrika
+
+let rpentonimo matriko = 
+  (*naredi matriko z rpentonimom*)
+  let m = Array.length matriko in
+  let n = Array.length matriko.(0) in
+  let x = m/2 in
+  let y = n/2 in
+  let matrika = praznamatrika m n in
+  matrika.(x).(y) <- true;
+  matrika.(x+1).(y) <- true;
+  matrika.(x+2).(y) <- true;
+  matrika.(x+1).(y+1) <- true;
+  matrika.(x+2).(y-1) <- true;
+  matrika
+
+let gosperglidergun matrika = 
+  (*naredi matriko z gosper glider gun*)
+  let m = Array.length matrika in
+  let n = Array.length matrika.(0) in
+  let x = m/2 in
+  let y = n/2 in
+  let matrika = praznamatrika m n in
+  matrika.(x).(y) <- true;
+  matrika.(x).(y+1) <- true;
+  matrika.(x+1).(y) <- true;
+  matrika.(x+1).(y+1) <- true; (*kvadratek na levi)*) (*želim da je vodoravno*)
+  matrika.(x+10).(y) <- true;
+  matrika.(x+10).(y+1) <- true;
+  matrika.(x+10).(y-1) <- true;
+  matrika.(x+11).(y+2) <- true;
+  matrika.(x+11).(y-2) <- true;
+  matrika.(x+12).(y+3) <- true;
+  matrika.(x+12).(y-3) <- true;
+  matrika.(x+13).(y+3) <- true;
+  matrika.(x+13).(y-3) <- true;
+  matrika.(x+14).(y) <- true;
+  matrika.(x+15).(y+2) <- true;
+  matrika.(x+15).(y-2) <- true;
+  matrika.(x+16).(y+1) <- true;
+  matrika.(x+16).(y) <- true;
+  matrika.(x+16).(y-1) <- true;
+  matrika.(x+17).(y) <- true; (*končan levosredinski del*)
+  matrika.(x+20).(y+1) <- true;
+  matrika.(x+20).(y+2) <- true;
+  matrika.(x+20).(y+3) <- true;
+  matrika.(x+21).(y+1) <- true;
+  matrika.(x+21).(y+2) <- true;
+  matrika.(x+21).(y+3) <- true;
+  matrika.(x+22).(y) <- true;
+  matrika.(x+22).(y+4) <- true;
+  matrika.(x+24).(y) <- true;
+  matrika.(x+24).(y-1) <- true;
+  matrika.(x+24).(y+4) <- true;
+  matrika.(x+24).(y+5) <- true;(*končan desnosredinski del*)
+  matrika.(x+34).(y+2) <- true;
+  matrika.(x+34).(y+3) <- true;
+  matrika.(x+35).(y+2) <- true;
+  matrika.(x+35).(y+3) <- true;(*končan kvadratek*)
+  matrika
+
+  let infinitegrowth matrika = 
+    (*naredi matriko z infinite growthom*)
+    let m = Array.length matrika in
+    let n = Array.length matrika.(0) in
+    let x = m/2 in
+    let y = n/2 in
+    let matrika = praznamatrika m n in
+    matrika.(x).(y) <- true;
+    matrika.(x).(y+3) <- true;
+    matrika.(x).(y+4) <- true;
+    matrika.(x+1).(y+1) <- true;
+    matrika.(x+1).(y+4) <- true;
+    matrika.(x+2).(y) <- true;
+    matrika.(x+2).(y+1) <- true;
+    matrika.(x+2).(y+4) <- true;
+    matrika.(x+3).(y+2) <- true;
+    matrika.(x+4).(y) <- true;
+    matrika.(x+4).(y+1) <- true;
+    matrika.(x+4).(y+2) <- true;
+    matrika.(x+4).(y+4) <- true;
+    matrika
+
+
+    (*funkcija, ki izbere naključbo izmed zgornjih štirih postavitev*)
+    let randomizbiramatrike matrika =
+      let random = Random.int 4 in
+      match random with
+      |0 -> glidermatrika matrika
+      |1 -> rpentonimo matrika
+      |2 -> gosperglidergun matrika
+      |3 -> infinitegrowth matrika
+      |_-> failwith "Napaka pri randomizbiramatrike"
